@@ -1,0 +1,26 @@
+image: openjdk:8-jdk
+
+stages:
+  - test
+
+# Make sure that the gradle stuff is stored in the same directory as the build
+# so that it can be cached.
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+# Cache gradle dependencies
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+# Run the Gradle task that runs all tests.
+test:
+  stage: test
+  script:
+    - ./gradlew check
+  tags:
+    - gradle
+
+after_script:
+  - echo "End CI"
