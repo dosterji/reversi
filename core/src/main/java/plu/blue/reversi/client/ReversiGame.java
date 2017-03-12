@@ -54,9 +54,9 @@ public class ReversiGame
         currentPlayer = p1;
 
         //Create the board
-        board = new int[7][7];
-        for(int i = 0; i<7; i++) {
-            for(int j = 0; j<7; j++) {
+        board = new int[8][8];
+        for(int i = 0; i<8; i++) {
+            for(int j = 0; j<8; j++) {
                 board[i][j] = 0;
             }
         }
