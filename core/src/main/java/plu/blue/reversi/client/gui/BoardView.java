@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static plu.blue.reversi.client.gui.BoardView.CellColor.BLACK;
+import static plu.blue.reversi.client.gui.BoardView.CellColor.EMPTY;
 import static plu.blue.reversi.client.gui.BoardView.CellColor.WHITE;
 
 /**
@@ -267,6 +268,8 @@ public class BoardView extends JPanel implements MouseListener {
         int cellRow = (int)Math.floor( y / cellSize );
         int cellCol = (int)Math.floor( x / cellSize );
         System.out.printf("Cell row = %d col = %d\n", cellRow, cellCol);
+        //Get it to animate
+        animateFlipSequence(cellRow, cellCol, cellRow, cellCol, EMPTY, WHITE, 300);
     }
 
     public void mousePressed(MouseEvent e) {
