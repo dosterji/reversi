@@ -53,7 +53,6 @@ public class ReversiGame
      * @return True if the move was successful, false otherwise
      */
     public ArrayList<Coordinate> move( Player p, int rowLocation, int colLocation) {
-        System.out.println(this.toString());
         flips.clear();
         int playerColor = p.getColor();
 
@@ -89,7 +88,6 @@ public class ReversiGame
                 }
             }
         }//End Board Changing
-        System.out.println(this.toString());
 
         //set current player
         if( currentPlayer.getName().equals(p1.getName()))
@@ -119,7 +117,6 @@ public class ReversiGame
         checkColumn( playerColor, row, col );
         checkRow( playerColor, row, col );
 
-        System.out.println("\n" + !flips.isEmpty() + "\n");
         if( flips.isEmpty() ) {
             board[row][col] = 0;
             return false;
@@ -140,7 +137,6 @@ public class ReversiGame
      * @param col
      */
     private void checkColumn( int playerColor, int row, int col ) {
-        System.out.println("checkColumn");
         if( row == 7 ) {
             if(board[row-1][col] != playerColor && board[row-1][col] != 0) {
                 for(int i = row-2; i>=0; i--) {
@@ -188,7 +184,6 @@ public class ReversiGame
      * @param row
      */
     private void checkRow(int playerColor, int row, int col ) {
-        System.out.println("checkRow");
         if( col == 7 ) {
             if(board[row][col-1] != playerColor && board[row][col-1] != 0) {
                 for(int i = col-2; i>=0; i--) {

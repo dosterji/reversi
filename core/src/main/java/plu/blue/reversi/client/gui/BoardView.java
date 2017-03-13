@@ -289,6 +289,9 @@ public class BoardView extends JPanel implements MouseListener {
                             flips.get(i).getColLocation(), EMPTY, BLACK, 300);
             }
         }
+        else{
+            System.out.println("Invalid move");
+        }
     }
 
     public void mousePressed(MouseEvent e) {
