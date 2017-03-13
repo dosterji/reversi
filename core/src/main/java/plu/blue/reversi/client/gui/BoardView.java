@@ -286,7 +286,7 @@ public class BoardView extends JPanel implements MouseListener {
                 for (int i = 0; i < flips.size(); i++)
                 {
                     animateFlipSequence(cellRow, cellCol, flips.get(i).getRowLocation(),
-                            flips.get(i).getColLocation(), EMPTY, WHITE, 300);
+                            flips.get(i).getColLocation(), EMPTY, WHITE, 150);
                     panel.setActivePlayer(1);
                 }
 
@@ -294,7 +294,7 @@ public class BoardView extends JPanel implements MouseListener {
             } else {
                 for (int i = 0; i < flips.size(); i++)
                     animateFlipSequence(cellRow, cellCol, flips.get(i).getRowLocation(),
-                            flips.get(i).getColLocation(), EMPTY, BLACK, 300);
+                            flips.get(i).getColLocation(), EMPTY, BLACK, 150);
                     panel.setActivePlayer(2);
             }
         }

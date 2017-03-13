@@ -127,9 +127,6 @@ public class ReversiGame
             return false;
         }
         else {
-            for(int i=0; i < flips.size(); i++) {
-                Coordinate current = flips.get(i);
-            }
             return true;
         }
     }
