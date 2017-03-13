@@ -1,5 +1,7 @@
 package plu.blue.reversi.client.gui;
 
+import plu.blue.reversi.client.ReversiGame;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,6 +19,9 @@ public class GameWindow extends JFrame {
     /** The panel containing the game history */
     private GameHistoryPanel historyPanel;
 
+    /** The model for the game */
+    private ReversiGame game;
+
     /**
      * Constructs a new main window for the game.
      */
@@ -24,6 +29,8 @@ public class GameWindow extends JFrame {
     {
         setTitle("Reversi");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        game = new ReversiGame();
 
         // Add the menu bar
         this.setJMenuBar(new ReversiMenuBar(this));
@@ -33,7 +40,7 @@ public class GameWindow extends JFrame {
 
         // Other panels
         playerInfoPanel = new PlayerInfoPanel();
-        boardView = new BoardView(8);
+        boardView = new BoardView(8, game);
 
         // This panel will preserve the aspect ratio of the component within it
         JPanel preserveAspectPanel = new JPanel(new PreserveAspectRatioLayout() );

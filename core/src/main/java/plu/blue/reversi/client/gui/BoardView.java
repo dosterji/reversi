@@ -2,6 +2,8 @@ package plu.blue.reversi.client.gui;
 
 import org.jdesktop.core.animation.timing.Animator;
 import org.jdesktop.core.animation.timing.TimingTargetAdapter;
+import plu.blue.reversi.client.Coordinate;
+import plu.blue.reversi.client.ReversiGame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +29,9 @@ public class BoardView extends JPanel implements MouseListener {
 
     /** The state of each cell on the board */
     private CellState[][] boardState;
+
+    /** The model for the game */
+    private ReversiGame game;
 
     /**
      * This is an internal class used to manage the animation of pieces flipping over.
@@ -197,8 +202,9 @@ public class BoardView extends JPanel implements MouseListener {
      *
      * @param size width/height in pixels
      */
-    public BoardView( int size )
+    public BoardView( int size, ReversiGame game )
     {
+        this.game = game;
         this.size = size;
         this.setPreferredSize(new Dimension(500,500) );
         this.setBackground(new Color(12, 169, 18));
@@ -267,9 +273,22 @@ public class BoardView extends JPanel implements MouseListener {
 
         int cellRow = (int)Math.floor( y / cellSize );
         int cellCol = (int)Math.floor( x / cellSize );
-        System.out.printf("Cell row = %d col = %d\n", cellRow, cellCol);
+        int color = game.getCurrentPlayerColor();
+        System.out.printf("Cell row = %d col = %d PlayerColor = %d\n", cellRow, cellCol, color);
         //Get it to animate
-        animateFlipSequence(cellRow, cellCol, cellRow, cellCol, EMPTY, WHITE, 300);
+
+        ArrayList<Coordinate> flips= game.move(game.getCurrentPlayer(), cellRow, cellCol);
+        if(flips != null) {
+            if (color == 1) {
+                for (int i = 0; i < flips.size(); i++)
+                    animateFlipSequence(cellRow, cellCol, flips.get(i).getRowLocation(),
+                            flips.get(i).getColLocation(), EMPTY, WHITE, 300);
+            } else {
+                for (int i = 0; i < flips.size(); i++)
+                    animateFlipSequence(cellRow, cellCol, flips.get(i).getRowLocation(),
+                            flips.get(i).getColLocation(), EMPTY, BLACK, 300);
+            }
+        }
     }
 
     public void mousePressed(MouseEvent e) {
