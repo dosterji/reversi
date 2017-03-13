@@ -24,6 +24,8 @@ public class BoardView extends JPanel implements MouseListener {
     /** The size (width and height) of the board in pixels */
     private int size;
 
+    private PlayerInfoPanel panel;
+
     /** Used to help with animation */
     private FlipAnimator fAnimator;
 
@@ -202,7 +204,7 @@ public class BoardView extends JPanel implements MouseListener {
      *
      * @param size width/height in pixels
      */
-    public BoardView( int size, ReversiGame game )
+    public BoardView( int size, ReversiGame game, PlayerInfoPanel playerPanel )
     {
         this.game = game;
         this.size = size;
@@ -213,6 +215,7 @@ public class BoardView extends JPanel implements MouseListener {
             for(int j = 0; j < size; j++ )
                 boardState[i][j] = new CellState(i, j);
 
+        panel = playerPanel;
 
         // Set up the initial board
         // TODO: This should really be determined by the model.  This should be removed and replaced with something
@@ -281,12 +284,18 @@ public class BoardView extends JPanel implements MouseListener {
         if(flips != null) {
             if (color == 1) {
                 for (int i = 0; i < flips.size(); i++)
+                {
                     animateFlipSequence(cellRow, cellCol, flips.get(i).getRowLocation(),
                             flips.get(i).getColLocation(), EMPTY, WHITE, 300);
+                    panel.setActivePlayer(1);
+                }
+
+
             } else {
                 for (int i = 0; i < flips.size(); i++)
                     animateFlipSequence(cellRow, cellCol, flips.get(i).getRowLocation(),
                             flips.get(i).getColLocation(), EMPTY, BLACK, 300);
+                    panel.setActivePlayer(2);
             }
         }
         else{

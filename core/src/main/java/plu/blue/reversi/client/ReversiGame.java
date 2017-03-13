@@ -18,7 +18,9 @@ public class ReversiGame
     /**
      * Reversi Contructors
      */
-    public ReversiGame() {this("Player1", "Player2"); }
+    public ReversiGame() {
+        this("Player1", "Player2");
+    }
     public ReversiGame(String name1, String name2) {
         p1 = new Player(name1, -1);
         p2 = new Player(name2, 1);
@@ -90,10 +92,13 @@ public class ReversiGame
         }//End Board Changing
 
         //set current player
-        if( currentPlayer.getName().equals(p1.getName()))
+        if( currentPlayer.getName().equals(p1.getName())) {
             currentPlayer = p2;
-        else
+        }
+        else {
             currentPlayer = p1;
+            return flips;
+        }
         return flips;
     }
 

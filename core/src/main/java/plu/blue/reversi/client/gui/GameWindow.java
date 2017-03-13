@@ -40,7 +40,7 @@ public class GameWindow extends JFrame {
 
         // Other panels
         playerInfoPanel = new PlayerInfoPanel();
-        boardView = new BoardView(8, game);
+        boardView = new BoardView(8, game, playerInfoPanel );
 
         // This panel will preserve the aspect ratio of the component within it
         JPanel preserveAspectPanel = new JPanel(new PreserveAspectRatioLayout() );
