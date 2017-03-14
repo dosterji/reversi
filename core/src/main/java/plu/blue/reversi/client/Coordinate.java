@@ -2,6 +2,7 @@ package plu.blue.reversi.client;
 
 /**
  * Created by John on 3/13/2017.
+ * A class for storing coordinate data.
  */
 public class Coordinate {
 
@@ -24,5 +25,14 @@ public class Coordinate {
     }
     public int getColLocation() {
         return colLoc;
+    }
+
+    /**
+     * Creates a string representation of this object in the form:
+     *                  "[rowLoc, colLoc]"
+     * @return The string representation
+     */
+    public String toString() {
+        return "[" + rowLoc + ", " + colLoc + "]";
     }
 }

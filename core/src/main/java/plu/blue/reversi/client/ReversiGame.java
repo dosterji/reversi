@@ -61,11 +61,13 @@ public class ReversiGame
 
         if( !isLegal(playerColor, rowLocation, colLocation) )
             return null;
+
         //player changes board
         board[rowLocation][colLocation] = playerColor;
         for(int i=0; i<flips.size(); i++) {
             Coordinate current = flips.get(i);
-            //Is row constant?
+            System.out.println(current.toString());
+            //update board[][]
             if(current.getRowLocation() == rowLocation) {
                 if(current.getColLocation() > colLocation){
                     for(int j = colLocation; j <= current.getColLocation(); j++) {
@@ -73,11 +75,11 @@ public class ReversiGame
                     }
                 }
                 else{
-                    for(int j = current.getColLocation(); j < colLocation; j++) {
+                    for(int j = current.getColLocation(); j <= colLocation; j++) {
                         board[rowLocation][j] = playerColor;
                     }
                 }
-            }
+            } //end updating rows
             else if(current.getColLocation() == colLocation){
                 if(current.getRowLocation() > rowLocation) {
                     for(int j = rowLocation; j <= current.getRowLocation(); j++) {
@@ -89,7 +91,7 @@ public class ReversiGame
                         board[j][colLocation] = playerColor;
                     }
                 }
-            }
+            }// end updating columns
             else if(current.getColLocation() > colLocation && current.getRowLocation() > rowLocation) {
                 for(int j = 0; colLocation+j <= current.getColLocation() && rowLocation+j <= current.getRowLocation(); j++) {
                     board[rowLocation+j][colLocation+j] = playerColor;
@@ -99,12 +101,12 @@ public class ReversiGame
                 for(int j =0; colLocation-j >= current.getColLocation() && rowLocation-j >= current.getRowLocation(); j++) {
                     board[rowLocation-j][colLocation-j] = playerColor;
                 }
-            }
+            }// end updating left Diagonal
             else if(current.getColLocation() > colLocation && current.getRowLocation() < rowLocation) {
                 for(int j =0; colLocation+j <= current.getColLocation() && rowLocation-j >= current.getRowLocation(); j++) {
                     board[rowLocation-j][colLocation+j] = playerColor;
                 }
-            }
+            }// end updating right Diagonal
             else if(current.getColLocation() < colLocation && current.getRowLocation() > rowLocation) {
                 for(int j =0; colLocation-j >= current.getColLocation() && rowLocation+j <= current.getRowLocation(); j++) {
                     board[rowLocation+j][colLocation-j] = playerColor;
@@ -166,8 +168,10 @@ public class ReversiGame
         if( row != 0 ) {
             if (board[row - 1][col] != playerColor && board[row - 1][col] != 0) {
                 for (int i = row - 2; i >= 0; i--) {
-                    if (board[i][col] == playerColor)
+                    if (board[i][col] == playerColor) {
                         flips.add(new Coordinate(i, col));
+                        break;
+                    }
                     else if (board[i][col] == 0)
                         break;
                 }
@@ -176,8 +180,10 @@ public class ReversiGame
         if( row != 7) {
             if( board[row+1][col] != playerColor && board[row+1][col] !=0) {
                 for( int i = row+2; i <= 7; i++) {
-                    if( board[i][col] == playerColor )
+                    if( board[i][col] == playerColor ) {
                         flips.add(new Coordinate(i, col));
+                        break;
+                    }
                     else if( board[i][col] == 0)
                         break;
                 }
@@ -196,8 +202,10 @@ public class ReversiGame
         if( col != 0) {
             if (board[row][col - 1] != playerColor && board[row][col - 1] != 0) {
                 for (int i = col - 2; i >= 0; i--) {
-                    if (board[row][i] == playerColor)
+                    if (board[row][i] == playerColor) {
                         flips.add(new Coordinate(row, i));
+                        break;
+                    }
                     else if (board[row][i] == 0)
                         break;
                 }
@@ -206,8 +214,10 @@ public class ReversiGame
         if(col != 7) {
             if (board[row][col + 1] != playerColor && board[row][col + 1] != 0) {
                 for (int i = col + 2; i <= 7; i++) {
-                    if (board[row][i] == playerColor)
+                    if (board[row][i] == playerColor) {
                         flips.add(new Coordinate(row, i));
+                        break;
+                    }
                     else if (board[row][i] == 0)
                         break;
                 }
@@ -227,6 +237,7 @@ public class ReversiGame
                 for(int i = 2; row + i <= 7 && col + i <= 7; i++) {
                     if( board[row+i][col+i] == playerColor ) {
                         flips.add(new Coordinate(row+i,col+i));
+                        break;
                     }
                     if( board[row+i][col+i] == 0 ) {
                         break;
@@ -239,6 +250,7 @@ public class ReversiGame
                 for(int i = 2; row - i >= 0 && col - i >= 0; i++) {
                     if( board[row-i][col-i] == playerColor ) {
                         flips.add(new Coordinate(row-i, col-i));
+                        break;
                     }
                     if( board[row-i][col-i] == 0 ) {
                         break;
@@ -260,6 +272,7 @@ public class ReversiGame
                 for(int i = 2; row + i <= 7 && col - i >= 0; i++) {
                     if( board[row+i][col-i] == playerColor ) {
                         flips.add(new Coordinate(row+i,col-i));
+                        break;
                     }
                     if( board[row+i][col-i] == 0 ) {
                         break;
@@ -272,6 +285,7 @@ public class ReversiGame
                 for(int i =2; row - i >= 0 && col + i <= 7; i++) {
                     if( board[row-i][col+i] == playerColor ) {
                         flips.add(new Coordinate(row-i, col+i));
+                        break;
                     }
                     if( board[row-i][col+i] == 0 ) {
                         break;
