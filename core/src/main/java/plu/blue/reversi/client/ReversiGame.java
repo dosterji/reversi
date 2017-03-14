@@ -6,13 +6,13 @@ import java.util.ArrayList;
 public class ReversiGame
 {
     /* The Players*/
-    Player p1;
-    Player p2;
-    Player currentPlayer;
+    private Player p1;
+    private Player p2;
+    private Player currentPlayer;
     /*The board */
-    int[][] board;
+    private int[][] board;
     /*To Help Flip */
-    ArrayList<Coordinate> flips;
+    private ArrayList<Coordinate> flips;
 
 
     /**
@@ -52,7 +52,8 @@ public class ReversiGame
      * @param p the player making the move
      * @param rowLocation the location of the move they are trying to make
      * @param colLocation the location of the move they are trying to make
-     * @return True if the move was successful, false otherwise
+     * @return an arrayList containing all of the Coordinates to flip tiles from starting
+     *          at rowLocation, colLocation
      */
     public ArrayList<Coordinate> move( Player p, int rowLocation, int colLocation) {
         flips.clear();
@@ -77,7 +78,7 @@ public class ReversiGame
                     }
                 }
             }
-            else{
+            else if(current.getColLocation() == colLocation){
                 if(current.getRowLocation() > rowLocation) {
                     for(int j = rowLocation; j <= current.getRowLocation(); j++) {
                         board[j][colLocation] = playerColor;
@@ -89,7 +90,32 @@ public class ReversiGame
                     }
                 }
             }
+            else if(current.getColLocation() > colLocation && current.getRowLocation() > rowLocation) {
+                for(int j = 0; colLocation+j <= current.getColLocation() && rowLocation+j <= current.getRowLocation(); j++) {
+                    board[rowLocation+j][colLocation+j] = playerColor;
+                    System.out.println("Loop1");
+                }
+            }
+            else if(current.getColLocation() < colLocation && current.getRowLocation() < rowLocation) {
+                for(int j =0; colLocation-j >= current.getColLocation() && rowLocation-j >= current.getRowLocation(); j++) {
+                    board[rowLocation-j][colLocation-j] = playerColor;
+                    System.out.println("Loop2");
+                }
+            }
+            else if(current.getColLocation() > colLocation && current.getRowLocation() < rowLocation) {
+                for(int j =0; colLocation+j <= current.getColLocation() && rowLocation-j >= current.getRowLocation(); j++) {
+                    board[rowLocation-j][colLocation+j] = playerColor;
+                    System.out.println("Loop3");
+                }
+            }
+            else if(current.getColLocation() < colLocation && current.getRowLocation() > rowLocation) {
+                for(int j =0; colLocation-j >= current.getColLocation() && rowLocation+j <= current.getRowLocation(); j++) {
+                    board[rowLocation+j][colLocation-j] = playerColor;
+                    System.out.println("Loop4");
+                }
+            }
         }//End Board Changing
+        System.out.println(toString());
 
         //set current player
         if( currentPlayer.getName().equals(p1.getName())) {
@@ -106,12 +132,12 @@ public class ReversiGame
      *
      * This method determines if a Move is legal, and then alters the board accordingly.
      * Does a quick search of board[][] to see if a move is legal or not.
-     * @param playerColor
-     * @param row
-     * @param col
-     * @return
+     * @param playerColor Black: -1, White: 1
+     * @param row The row the player is placing a tile in
+     * @param col The column the player is placing a tile in
+     * @return True is the move is valid, false otherwise
      */
-    public boolean isLegal( int playerColor, int row, int col) {
+    private boolean isLegal( int playerColor, int row, int col) {
 
         //check to see if the space is empty
         if( board[row][col] != 0 )
@@ -121,6 +147,8 @@ public class ReversiGame
         board[row][col] = playerColor;
         checkColumn( playerColor, row, col );
         checkRow( playerColor, row, col );
+        checkLeftDiag( playerColor, row, col);
+        checkRightDiag( playerColor, row, col);
 
         if( flips.isEmpty() ) {
             board[row][col] = 0;
@@ -134,40 +162,22 @@ public class ReversiGame
     /**
      * Private Helper Method.
      * Checks the Column.
-     * @param playerColor
-     * @param row
-     * @param col
+     * @param playerColor Balck: -1, White: 1
+     * @param row The row the player is placing a tile in
+     * @param col THe column the player is placing a tile in
      */
     private void checkColumn( int playerColor, int row, int col ) {
-        if( row == 7 ) {
-            if(board[row-1][col] != playerColor && board[row-1][col] != 0) {
-                for(int i = row-2; i>=0; i--) {
-                    if( board[i][col] == playerColor )
-                        flips.add( new Coordinate(i, col));
-                    else if( board[i][col] == 0 )
-                        break;
-                }
-            }
-        }//Sepcial Case (edge)
-        else if( row == 0 ) {
-            if(board[row+1][col] != playerColor && board[row+1][col] != 0) {
-                for(int i = row+2; i<=7; i++) {
-                    if( board[i][col] == playerColor )
-                        flips.add( new Coordinate(i, col));
-                    else if( board[i][col]== 0 )
-                        break;
-                }
-            }
-        }//Special Case (edge)
-        else{
-            if(board[row-1][col] != playerColor && board[row-1][col] != 0) {
-                for( int i = row-2; i >= 0; i--) {
-                    if( board[i][col] == playerColor )
+        if( row != 0 ) {
+            if (board[row - 1][col] != playerColor && board[row - 1][col] != 0) {
+                for (int i = row - 2; i >= 0; i--) {
+                    if (board[i][col] == playerColor)
                         flips.add(new Coordinate(i, col));
-                    else if( board[i][col] == 0)
+                    else if (board[i][col] == 0)
                         break;
                 }
             }
+        }
+        if( row != 7) {
             if( board[row+1][col] != playerColor && board[row+1][col] !=0) {
                 for( int i = row+2; i <= 7; i++) {
                     if( board[i][col] == playerColor )
@@ -176,70 +186,118 @@ public class ReversiGame
                         break;
                 }
             }
-        }//Standard Case
+        }
     }
 
     /**
      * Private Helper Method.
      * Checks the rows for validity.
-     * @param playerColor
-     * @param row
+     * @param playerColor Black  -1, White: 1
+     * @param row The row the player is placing a tile in
+     * @param col the column the player is placing a tile in
      */
     private void checkRow(int playerColor, int row, int col ) {
-        if( col == 7 ) {
-            if(board[row][col-1] != playerColor && board[row][col-1] != 0) {
-                for(int i = col-2; i>=0; i--) {
-                    if( board[row][i] == playerColor )
-                        flips.add( new Coordinate(row, i));
-                    else if( board[row][i] == 0 )
-                        break;
-                }
-            }
-        }//Sepcial Case (edge)
-        else if( col == 0 ) {
-            if(board[row][col+1] != playerColor && board[row][col+1] != 0) {
-                for(int i = col+2; i<=7; i++) {
-                    if( board[row][i] == playerColor )
-                        flips.add( new Coordinate(row, i));
-                    else if( board[row][i]== 0 )
-                        break;
-                }
-            }
-        }//Special Case (edge)
-        else{
-            if(board[row][col-1] != playerColor && board[row][col-1] != 0) {
-                for( int i = col-2; i >= 0; i--) {
-                    if( board[row][i] == playerColor )
+        if( col != 0) {
+            if (board[row][col - 1] != playerColor && board[row][col - 1] != 0) {
+                for (int i = col - 2; i >= 0; i--) {
+                    if (board[row][i] == playerColor)
                         flips.add(new Coordinate(row, i));
-                    else if( board[row][i] == 0)
+                    else if (board[row][i] == 0)
                         break;
                 }
             }
-            if( board[row][col+1] != playerColor && board[row][col+1] !=0) {
-                for( int i = col+2; i <= 7; i++) {
-                    if( board[row][i] == playerColor )
+        }
+        if(col != 7) {
+            if (board[row][col + 1] != playerColor && board[row][col + 1] != 0) {
+                for (int i = col + 2; i <= 7; i++) {
+                    if (board[row][i] == playerColor)
                         flips.add(new Coordinate(row, i));
-                    else if( board[row][i] == 0)
+                    else if (board[row][i] == 0)
                         break;
                 }
             }
-        }//Standard Case
+        }
+    }//Standard Case
+
+    /**
+     * Checks the diagonal crossing from the top-left corner to bottom right
+     * @param playerColor Black: -1, White: 1
+     * @param row The row the player is placing a tile in
+     * @param col The col the player is placing a tile in
+     */
+    private void checkLeftDiag( int playerColor, int row, int col) {
+        if(row != 7 && col != 7) {
+            if( board[row+1][col+1] != playerColor && board[row+1][col+1] != 0) {
+                for(int i = 2; row + i <= 7 && col + i <= 7; i++) {
+                    if( board[row+i][col+i] == playerColor ) {
+                        flips.add(new Coordinate(row+i,col+i));
+                    }
+                    if( board[row+i][col+i] == 0 ) {
+                        break;
+                    }
+                }
+            }
+        }
+        if(row != 0 && col != 0) {
+            if( board[row-1][col- 1] != playerColor && board[row-1][col-1] != 0) {
+                for(int i = 2; row - i >= 0 && col - i >= 0; i++) {
+                    if( board[row-i][col-i] == playerColor ) {
+                        flips.add(new Coordinate(row-i, col-i));
+                    }
+                    if( board[row-i][col-i] == 0 ) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks the diagonal crossing from the top-right corner to the bottom left
+     * @param playerColor Black: -1, White: 1
+     * @param row The row the player is placing a tile in
+     * @param col The column the player is placing a tile in
+     */
+    private void checkRightDiag( int playerColor, int row, int col) {
+        if(row != 7 && col != 0) {
+            if( board[row+1][col-1] != playerColor && board[row+1][col-1] != 0) {
+                for(int i = 2; row + i <= 7 && col - i >= 0; i++) {
+                    if( board[row+i][col-i] == playerColor ) {
+                        flips.add(new Coordinate(row+i,col-i));
+                    }
+                    if( board[row+i][col-i] == 0 ) {
+                        break;
+                    }
+                }
+            }
+        }
+        if(row != 0 && col != 7) {
+            if( board[row-1][col+1] != playerColor && board[row-1][col+1] != 0) {
+                for(int i =2; row - i >= 0 && col + i <= 7; i++) {
+                    if( board[row-i][col+i] == playerColor ) {
+                        flips.add(new Coordinate(row-i, col+i));
+                    }
+                    if( board[row-i][col+i] == 0 ) {
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     /**
      * Returns a string representation of the game board
-     * @return
+     * @return A string representation of the board
      */
     public String toString() {
 
-        StringBuilder s = new StringBuilder();
+        String s = "";
         for(int i = 0; i < 8; i++) {
             for(int j = 0; j<7; j++) {
-                s.append(board[i][j] + " ");
-                if(j == 6)
-                    s.append(board[i][j] + "\n");
+                s += String.format("%3d", board[i][j]);
             }
+            s += "\n";
         }
-        return s.toString();
+        return s;
     }
 }
