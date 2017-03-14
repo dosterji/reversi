@@ -93,25 +93,21 @@ public class ReversiGame
             else if(current.getColLocation() > colLocation && current.getRowLocation() > rowLocation) {
                 for(int j = 0; colLocation+j <= current.getColLocation() && rowLocation+j <= current.getRowLocation(); j++) {
                     board[rowLocation+j][colLocation+j] = playerColor;
-                    System.out.println("Loop1");
                 }
             }
             else if(current.getColLocation() < colLocation && current.getRowLocation() < rowLocation) {
                 for(int j =0; colLocation-j >= current.getColLocation() && rowLocation-j >= current.getRowLocation(); j++) {
                     board[rowLocation-j][colLocation-j] = playerColor;
-                    System.out.println("Loop2");
                 }
             }
             else if(current.getColLocation() > colLocation && current.getRowLocation() < rowLocation) {
                 for(int j =0; colLocation+j <= current.getColLocation() && rowLocation-j >= current.getRowLocation(); j++) {
                     board[rowLocation-j][colLocation+j] = playerColor;
-                    System.out.println("Loop3");
                 }
             }
             else if(current.getColLocation() < colLocation && current.getRowLocation() > rowLocation) {
                 for(int j =0; colLocation-j >= current.getColLocation() && rowLocation+j <= current.getRowLocation(); j++) {
                     board[rowLocation+j][colLocation-j] = playerColor;
-                    System.out.println("Loop4");
                 }
             }
         }//End Board Changing
@@ -294,7 +290,12 @@ public class ReversiGame
         String s = "";
         for(int i = 0; i < 8; i++) {
             for(int j = 0; j<8; j++) {
-                s += String.format("%3d", board[i][j]);
+                if(board[i][j]==1)
+                    s += String.format("%3c", 'W');
+                else if(board[i][j]==-1)
+                    s += String.format("%3c", 'B');
+                else
+                    s += String.format("%3c", '-');
             }
             s += "\n";
         }
