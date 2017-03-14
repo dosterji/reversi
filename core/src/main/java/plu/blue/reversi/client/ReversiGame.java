@@ -66,7 +66,7 @@ public class ReversiGame
         board[rowLocation][colLocation] = playerColor;
         for(int i=0; i<flips.size(); i++) {
             Coordinate current = flips.get(i);
-            System.out.println(current.toString());
+            //System.out.println(current.toString());
             //update board[][]
             if(current.getRowLocation() == rowLocation) {
                 if(current.getColLocation() > colLocation){
