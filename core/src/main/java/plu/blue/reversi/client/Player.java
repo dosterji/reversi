@@ -21,7 +21,7 @@ public class Player {
     public Player(String n, int c) {
         name = n;
         color = c;
-        score = 0;
+        score = 2;
     }
 
     public int getScore() {
