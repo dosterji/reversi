@@ -79,4 +79,9 @@ public class GameWindow extends JFrame {
      * @return the BoardView
      */
     public BoardView getBoardView() { return boardView; }
+
+    public void newGame() {
+        game.newGame();
+        boardView.newGame();
+    }
 }

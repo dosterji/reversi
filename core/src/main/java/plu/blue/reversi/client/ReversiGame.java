@@ -29,16 +29,8 @@ public class ReversiGame
 
         //Create the board
         board = new int[8][8];
-        for(int i = 0; i<8; i++) {
-            for(int j = 0; j<8; j++) {
-                board[i][j] = 0;
-            }
-        }
+        newGame();
 
-        board[3][3] = -1;
-        board[3][4] = 1;
-        board[4][3] = 1;
-        board[4][4] = -1;
     }// End Reversi Constructors
 
     public Player getCurrentPlayer() {
@@ -64,19 +56,18 @@ public class ReversiGame
 
         //player changes board
         board[rowLocation][colLocation] = playerColor;
+        System.out.println("Coordinates: ");
         for(int i=0; i<flips.size(); i++) {
             Coordinate current = flips.get(i);
-            System.out.println(current.toString());
+            System.out.print(current.toString() + " ");
             //update board[][]
             if(current.getRowLocation() == rowLocation) {
                 if(current.getColLocation() > colLocation){
-                    System.out.println("Updating East");
                     for(int j = colLocation; j <= current.getColLocation(); j++) {
                         board[rowLocation][j] = playerColor;
                     }
                 }
                 else{
-                    System.out.println("Updating West");
                     for(int j = colLocation; j >= current.getColLocation(); j--) {
                         board[rowLocation][j] = playerColor;
                     }
@@ -84,13 +75,11 @@ public class ReversiGame
             } //end updating rows
             else if(current.getColLocation() == colLocation){
                 if(current.getRowLocation() > rowLocation) {
-                    System.out.println("Updating South");
                     for(int j = rowLocation; j <= current.getRowLocation(); j++) {
                         board[j][colLocation] = playerColor;
                     }
                 }
                 else{
-                    System.out.println("Updating North");
                     for(int j = rowLocation; j >= current.getRowLocation(); j--) {
                         board[j][colLocation] = playerColor;
                     }
@@ -117,7 +106,7 @@ public class ReversiGame
                 }
             }
         }//End Board Changing
-        System.out.println(toString());
+        System.out.println("\n" + toString());
 
         //set current player
         if( currentPlayer.getName().equals(p1.getName())) {
@@ -296,6 +285,24 @@ public class ReversiGame
                 }
             }
         }
+    }
+
+    /**
+     * Sets everything in the board to blank except for the inner pieces.
+     */
+    public void newGame() {
+        for(int i = 0; i<8; i++) {
+            for(int j = 0; j<8; j++) {
+                board[i][j] = 0;
+            }
+        }
+
+        board[3][3] = -1;
+        board[3][4] = 1;
+        board[4][3] = 1;
+        board[4][4] = -1;
+
+        currentPlayer = p1;
     }
 
     /**

@@ -261,8 +261,6 @@ public class BoardView extends JPanel implements MouseListener {
      * Mouse clicked event.  Determines the cell where the mouse
      * was clicked and prints the row/column to the console.
      *
-     * TODO: Replace this with something more useful.
-     *
      * @param e
      */
     public void mouseClicked(MouseEvent e) {
@@ -336,5 +334,20 @@ public class BoardView extends JPanel implements MouseListener {
                                     long milliseconds) {
         fAnimator = new FlipAnimator(startRow, startCol, endRow, endCol, start, end, milliseconds);
         fAnimator.start();
+    }
+
+    public void newGame() {
+        for(int i = 0; i <= 7; i++) {
+            for(int j = 0; j <= 7; j++) {
+                boardState[i][j].setColor(EMPTY);
+            }
+        }
+
+        animateFlipSequence(3, 3, 3, 3, EMPTY, BLACK, 150);
+        animateFlipSequence(3, 4, 3, 4, EMPTY, WHITE, 150);
+        animateFlipSequence(4, 3, 4, 3, EMPTY, WHITE, 150);
+        animateFlipSequence(4, 4, 4, 4, EMPTY, BLACK, 150);
+
+        panel.setActivePlayer(1);
     }
 }

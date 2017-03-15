@@ -1,5 +1,7 @@
 package plu.blue.reversi.client.gui;
 
+import plu.blue.reversi.client.ReversiGame;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +17,9 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
 
     /** Quit item */
     private JMenuItem quitMenuItem;
+
+    /** New Game item */
+    private JMenuItem newGameItem;
 
     /**
      * Constructs the menu bar
@@ -37,14 +42,15 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         menu.getAccessibleContext().setAccessibleDescription(
                 "New game");
 
-        JMenuItem menuItem = new JMenuItem("New Game");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+        newGameItem = new JMenuItem("New Game");
+        newGameItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_N, ActionEvent.META_MASK));
-        menuItem.getAccessibleContext().setAccessibleDescription(
+        newGameItem.getAccessibleContext().setAccessibleDescription(
                 "Start a new game against the computer");
-        menu.add(menuItem);
+        newGameItem.addActionListener(this);
+        menu.add(newGameItem);
 
-        menuItem = new JMenuItem("New Online Game");
+        JMenuItem menuItem = new JMenuItem("New Online Game");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_O, ActionEvent.META_MASK));
         menuItem.getAccessibleContext().setAccessibleDescription(
@@ -75,6 +81,9 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == quitMenuItem) {
             System.exit(0);
+        }
+        if(e.getSource() == newGameItem) {
+            gui.newGame();
         }
     }
 }
