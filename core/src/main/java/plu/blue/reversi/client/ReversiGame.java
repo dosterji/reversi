@@ -66,28 +66,32 @@ public class ReversiGame
         board[rowLocation][colLocation] = playerColor;
         for(int i=0; i<flips.size(); i++) {
             Coordinate current = flips.get(i);
-            //System.out.println(current.toString());
+            System.out.println(current.toString());
             //update board[][]
             if(current.getRowLocation() == rowLocation) {
                 if(current.getColLocation() > colLocation){
+                    System.out.println("Updating East");
                     for(int j = colLocation; j <= current.getColLocation(); j++) {
                         board[rowLocation][j] = playerColor;
                     }
                 }
                 else{
-                    for(int j = current.getColLocation(); j <= colLocation; j++) {
+                    System.out.println("Updating West");
+                    for(int j = colLocation; j >= current.getColLocation(); j--) {
                         board[rowLocation][j] = playerColor;
                     }
                 }
             } //end updating rows
             else if(current.getColLocation() == colLocation){
                 if(current.getRowLocation() > rowLocation) {
+                    System.out.println("Updating South");
                     for(int j = rowLocation; j <= current.getRowLocation(); j++) {
                         board[j][colLocation] = playerColor;
                     }
                 }
                 else{
-                    for(int j = current.getColLocation(); j <= rowLocation; j++) {
+                    System.out.println("Updating North");
+                    for(int j = rowLocation; j >= current.getRowLocation(); j--) {
                         board[j][colLocation] = playerColor;
                     }
                 }
@@ -121,7 +125,6 @@ public class ReversiGame
         }
         else {
             currentPlayer = p1;
-            return flips;
         }
         return flips;
     }
