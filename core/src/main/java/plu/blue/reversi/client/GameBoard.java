@@ -192,10 +192,10 @@ public class GameBoard {
     }
 
     /**
-     *
-     * @param playerColor
-     * @param rowLocation
-     * @param colLocation
+     * This class updates the board by placing a tile of playerColor at the specified location
+     * @param playerColor The current Player's Color
+     * @param rowLocation the row Location
+     * @param colLocation the column location
      */
     public void update(int playerColor, int rowLocation, int colLocation) {
         //player changes board

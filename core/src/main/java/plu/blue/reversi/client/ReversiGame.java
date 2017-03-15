@@ -15,7 +15,7 @@ public class ReversiGame
     private Player p2;
     private Player currentPlayer;
     /*The board */
-    GameBoard board;
+    private GameBoard board;
 
 
     /**
@@ -34,6 +34,7 @@ public class ReversiGame
 
     }// End Reversi Constructors
 
+    public GameBoard getBoard() { return board; }
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
