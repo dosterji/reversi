@@ -3,6 +3,7 @@ package plu.blue.reversi.client.gui;
 import org.jdesktop.core.animation.timing.Animator;
 import org.jdesktop.core.animation.timing.TimingTargetAdapter;
 import plu.blue.reversi.client.Coordinate;
+import plu.blue.reversi.client.Player;
 import plu.blue.reversi.client.ReversiGame;
 
 import javax.swing.*;
@@ -215,7 +216,10 @@ public class BoardView extends JPanel implements MouseListener {
             for(int j = 0; j < size; j++ )
                 boardState[i][j] = new CellState(i, j);
 
+        //Initializes the score in PlayerInfoPanel
         panel = playerPanel;
+        panel.setScore(1, game.getP1().getScore());
+        panel.setScore(2, game.getP2().getScore());
 
         // Set up the initial board
         // TODO: This should really be determined by the model.  This should be removed and replaced with something
@@ -280,21 +284,19 @@ public class BoardView extends JPanel implements MouseListener {
 
         ArrayList<Coordinate> flips= game.move(game.getCurrentPlayer(), cellRow, cellCol);
         if(flips != null) {
-            if (color == 1) {
+            if (color == 1) { //if color is white
                 for (int i = 0; i < flips.size(); i++)
-                {
                     animateFlipSequence(cellRow, cellCol, flips.get(i).getRowLocation(),
                             flips.get(i).getColLocation(), EMPTY, WHITE, 150);
-                    panel.setActivePlayer(1);
-                }
-
-
+                panel.setActivePlayer(1); //Set the active player back to 1 (black)
             } else {
                 for (int i = 0; i < flips.size(); i++)
                     animateFlipSequence(cellRow, cellCol, flips.get(i).getRowLocation(),
                             flips.get(i).getColLocation(), EMPTY, BLACK, 150);
-                    panel.setActivePlayer(2);
+                panel.setActivePlayer(2); //Set the active player back to 2 (white)
             }
+
+            updateScoreBoard(game.getP1(), game.getP2()); //P1=black, P2=white
         }
         else{
             System.out.println("Invalid move");
@@ -349,5 +351,43 @@ public class BoardView extends JPanel implements MouseListener {
         animateFlipSequence(4, 4, 4, 4, EMPTY, BLACK, 150);
 
         panel.setActivePlayer(1);
+    }
+
+    /**
+     * Updates the PlayerInfoPlayer Object; setting the score per player, which is
+     * located displayed inside the colored circle on the GUI
+     */
+    public void updateScoreBoard(Player player1, Player player2) {
+
+        int score1 = calculateScore(game.toString(), 1);
+        int score2 = calculateScore(game.toString(), 2);
+
+        player1.setScore(score1);
+        player2.setScore(score2);
+        panel.setScore(1, player1.getScore());
+        panel.setScore(2, player2.getScore());
+    }
+
+
+    public int calculateScore(String scoreBoard, int playerNumber) {
+        char pieceColor = '-';
+        int score = 0;
+        int index = 0;
+
+        if(playerNumber == 1)
+            pieceColor = 'B';
+        else pieceColor = 'W';
+
+        //System.out.println("Piece Color is: "  + pieceColor);
+
+        while( index < scoreBoard.length() ) {
+            if (scoreBoard.charAt(index) == pieceColor) {
+                //System.out.println("Character: " + scoreBoard.charAt(index));
+                score = score + 1;
+            }
+            index = index + 1;
+            //System.out.println("P-" + playerNumber +  " S-" + score + " I-" + index );
+        }
+        return score;
     }
 }

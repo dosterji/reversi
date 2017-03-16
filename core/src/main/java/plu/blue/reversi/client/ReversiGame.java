@@ -25,8 +25,8 @@ public class ReversiGame
         this("Player1", "Player2");
     }
     public ReversiGame(String name1, String name2) {
-        p1 = new Player(name1, -1);
-        p2 = new Player(name2, 1);
+        p1 = new Player(name1, -1); //Black
+        p2 = new Player(name2, 1);  //White
         currentPlayer = p1;
         board = new GameBoard();
         //Create the board
@@ -34,6 +34,8 @@ public class ReversiGame
 
     }// End Reversi Constructors
 
+    public Player getP1() { return p1; }
+    public Player getP2() { return p2; }
     public GameBoard getBoard() { return board; }
     public Player getCurrentPlayer() {
         return currentPlayer;
