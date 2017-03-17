@@ -9,55 +9,30 @@ import java.util.ArrayList;
 public class GameHistory {
 
     // Field declarations
-    private ArrayList<Coordinate> moveHistory;
-    private Player player1, player2;
+    private ArrayList<Move> moveHistory;
 
     /**
      * GameHistory constructor
-     * @param p1 the first Player
-     * @param p2 the second Player
      */
-    public GameHistory(Player p1, Player p2) {
+    public GameHistory() {
         moveHistory = new ArrayList<>();
-        player1 = p1;
-        player2 = p2;
     }
 
     /**
      * Adds a move to the GameHistory
-     * @param c the coordinate of the move
+     * @param m the move
      * @return true if the move was successfully added, false if otherwise
      */
-    public boolean addMove(Coordinate c) {
-        return moveHistory.add(c);
+    public boolean addMove(Move m) {
+        return moveHistory.add(m);
     }
 
     // +---------+
     // | Getters |
     // +---------+
 
-    public ArrayList<Coordinate> getMoveHistory() {
+    public ArrayList<Move> getMoveHistory() {
         return moveHistory;
-    }
-
-    public Player getPlayer1() {
-        return player1;
-    }
-
-    public Player getPlayer2() {
-        return player2;
-    }
-
-    // +---------+
-    // | Setters |
-    // +---------+
-
-    public void setPlayer1(Player p) {
-        player1 = p;
-    }
-
-    public void setPlayer2(Player p) {
-        player2 = p;
     }
 
 }
