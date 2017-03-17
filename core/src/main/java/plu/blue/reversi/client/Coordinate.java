@@ -33,6 +33,26 @@ public class Coordinate {
      * @return The string representation
      */
     public String toString() {
-        return "[" + rowLoc + ", " + colLoc + "]";
+        String s = "";
+        switch(colLoc){
+            case 0: s+= "A";
+                    break;
+            case 1: s+= "B";
+                    break;
+            case 2: s+= "C";
+                    break;
+            case 3: s+= "D";
+                    break;
+            case 4: s+= "E";
+                    break;
+            case 5: s+= "F";
+                    break;
+            case 6: s+= "G";
+                    break;
+            default: s+= "H";
+                    break;
+        }
+        s+= rowLoc+1;
+        return s;
     }
 }

@@ -24,6 +24,9 @@ public class Player {
         score = 2;
     }
 
+    // +------------------+
+    // | Getters & Setters|
+    // +------------------+
     public int getScore() {
         return score;
     }
@@ -35,5 +38,13 @@ public class Player {
     }
     public String getName() {
         return name;
+    }
+
+    /**
+     * Get a String representation of the PLayer
+     * @return the string
+     */
+    public String toString() {
+        return "Player: " + name + "; Score: " + score + ".";
     }
 } //End Player
