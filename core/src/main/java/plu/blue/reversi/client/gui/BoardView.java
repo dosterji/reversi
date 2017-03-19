@@ -351,6 +351,7 @@ public class BoardView extends JPanel implements MouseListener {
         animateFlipSequence(4, 4, 4, 4, EMPTY, BLACK, 150);
 
         panel.setActivePlayer(1);
+        updateScoreBoard(game.getP1(),game.getP2());
     }
 
     /**
