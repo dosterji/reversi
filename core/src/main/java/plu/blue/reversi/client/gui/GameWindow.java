@@ -58,7 +58,7 @@ public class GameWindow extends JFrame {
         boardPanel.add(preserveAspectPanel, BorderLayout.CENTER);
         boardPanel.add(playerInfoPanel, BorderLayout.NORTH);
 
-        historyPanel = new GameHistoryPanel();
+        historyPanel = new GameHistoryPanel(game.getGameHistory());
 
         // History panel goes in the EAST
         this.add(historyPanel, BorderLayout.EAST);
@@ -80,8 +80,12 @@ public class GameWindow extends JFrame {
      */
     public BoardView getBoardView() { return boardView; }
 
+    /**
+     * Starts a new Reversi game
+     */
     public void newGame() {
         game.newGame();
+        historyPanel.newGame();
         boardView.newGame();
     }
 }

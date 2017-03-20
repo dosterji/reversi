@@ -1,6 +1,5 @@
 package plu.blue.reversi.client;
 
-
 import java.util.ArrayList;
 
 /**
@@ -16,19 +15,22 @@ public class ReversiGame
     private Player currentPlayer;
     /*The board */
     private GameBoard board;
-
+    /* The game history */
+    private GameHistory history;
 
     /**
-     * Reversi Contructors
+     * Reversi Constructors
      */
     public ReversiGame() {
         this("Player1", "Player2");
     }
+
     public ReversiGame(String name1, String name2) {
         p1 = new Player(name1, -1); //Black
         p2 = new Player(name2, 1);  //White
         currentPlayer = p1;
-        board = new GameBoard();
+        history = new GameHistory();
+        board = new GameBoard(history.getMoveHistory());
         //Create the board
         newGame();
 
@@ -42,6 +44,10 @@ public class ReversiGame
     }
     public int getCurrentPlayerColor() {
         return currentPlayer.getColor();
+    }
+
+    public GameHistory getGameHistory() {
+        return history;
     }
     /**
      * Make a move on the board as a player.
@@ -58,6 +64,7 @@ public class ReversiGame
         if( flips == null)
             return null;
         board.update(playerColor, rowLocation, colLocation);
+        history.addMove(new Move(new Coordinate(rowLocation, colLocation), p));
         System.out.println("\n" + toString());
 
         //set current player
@@ -76,6 +83,7 @@ public class ReversiGame
      */
     public void newGame() {
         board.newGame();
+        history.newGame();
         currentPlayer = p1;
     }
 

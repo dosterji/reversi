@@ -1,42 +1,38 @@
 package plu.blue.reversi.client.gui;
 
+import plu.blue.reversi.client.GameHistory;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * This panel displays the history of moves that have taken place
- * througout the game.  It should be updated after every move.
- *
- * TODO:  This currently uses an internal class called Move, which really
- * doesn't belong here.  I suggest moving that over to a model subsystem
- * because it is something many subsystems might be interested in.
+ * throughout the game.  It should be updated after every move.
  */
 public class GameHistoryPanel extends JPanel {
 
     private JTable historyTable;
-    private ArrayList<Move> history;
+    private GameHistory history;
 
-    /**
-     *  This is just an example table model to get you started.  It isn't
-     *  complete and will need to be updated.
-     *
-     *  TODO: Update this to work with the rest of the system.
-     */
-    private class ExampleTableModel extends AbstractTableModel {
+    private class MoveHistoryTableModel extends AbstractTableModel {
         @Override
         public String getColumnName(int column) {
-            if( column == 0 ) return "#";
-            else if( column == 1 ) return "Move";
-            else if( column == 2 ) return "Player";
-            return "";
+            if (column == 0) {
+                return "#";
+            } else if (column == 1) {
+                return "Move";
+            } else if (column == 2) {
+                return "Player";
+            } else {
+                return "";
+            }
         }
 
         @Override
         public int getRowCount() {
-            return history.size();
+            return history.getMoveHistory().size();
         }
 
         @Override
@@ -46,57 +42,33 @@ public class GameHistoryPanel extends JPanel {
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            if( rowIndex >= history.size() ) return null;
-
-            Move m = history.get(rowIndex);
-            if( columnIndex == 0 ) return "" + (rowIndex + 1);
-            else if( columnIndex == 1) return m.cell;
-            else if( columnIndex == 2) {
-                // Should ask the model for the player name here,
-                // but for now, we "hard code"
-                if( m.player == 1 ) return "Player 1";
-                else if(m.player == 2 ) return "Player 2";
-                else return "";
+            if (rowIndex >= history.getMoveHistory().size()) {
+                return null;
             }
-            return null;
-        }
-    }
 
-    /**
-     * This is a temporary class, just for demo purposes.  This really belongs in the model,
-     * not in the GUI.  You should remove this and implement it in the model.
-     *
-     * TODO: Probably belongs in the model system.
-     */
-    private class Move {
-        private String cell;
-        private int player;
-        public Move(String cell, int player) {
-            this.cell = cell;
-            this.player = player;
+            if (columnIndex == 0) {
+                return "" + (rowIndex + 1);
+            } else if (columnIndex == 1) {
+                return history.getMoveHistory().get(rowIndex).getCoordinate().toString();
+            } else if (columnIndex == 2) {
+                return history.getMoveHistory().get(rowIndex).getPlayer().getName();
+            } else {
+                return null;
+            }
         }
     }
 
     /**
      * Construct a new history panel.  Currently, this places some example
      * history into the panel.  This should be removed.
-     *
-     * TODO: Implement "real" history
      */
-    public GameHistoryPanel() {
-
-        // Fill the history list with some arbitrary example data.
-        // This should be stored in the model, not here.
-        // TODO: move this to the model
-        history = new ArrayList<Move>();
-        history.add( new Move("D4", 1));
-        history.add( new Move("E4", 2));
-        history.add( new Move("E5", 1));
-        history.add( new Move("D5", 2));
-
+    public GameHistoryPanel(GameHistory gh) {
         this.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         this.setLayout(new BorderLayout());
-        historyTable = new JTable(new ExampleTableModel());
+        historyTable = new JTable(new MoveHistoryTableModel());
+
+        history = gh;
+        history.addTableReference(historyTable);
 
         JScrollPane scrollPane = new JScrollPane(historyTable);
         scrollPane.setPreferredSize(new Dimension(250,0));
@@ -114,5 +86,9 @@ public class GameHistoryPanel extends JPanel {
         borderPanel.add(scrollPane);
 
         this.add(borderPanel, BorderLayout.CENTER);
+    }
+
+    public void newGame() {
+        historyTable.tableChanged(null);
     }
 }

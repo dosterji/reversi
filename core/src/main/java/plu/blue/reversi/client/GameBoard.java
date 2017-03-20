@@ -15,10 +15,13 @@ public class GameBoard {
     /*To Help Flip */
     private ArrayList<Coordinate> flips;
 
-    public GameBoard() {
-        flips = new ArrayList<Coordinate>();
+    GameBoard(ArrayList<Move> moveHistory) {
+        flips = new ArrayList<>();
         board = new int[8][8];
-        newGame();
+
+        for (Move m : moveHistory) {
+            board[m.getCoordinate().getRowLocation()][m.getCoordinate().getColLocation()] = m.getPlayer().getColor();
+        }
     }
 
     /**
@@ -56,7 +59,7 @@ public class GameBoard {
     /**
      * Private Helper Method.
      * Checks the Columns for validity.
-     * @param playerColor Balck: -1, White: 1
+     * @param playerColor Black: -1, White: 1
      * @param row The row the player is placing a tile in
      * @param col THe column the player is placing a tile in
      */
