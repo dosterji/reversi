@@ -15,7 +15,7 @@ public class GameBoard {
     /*To Help Flip */
     private ArrayList<Coordinate> flips;
 
-    GameBoard(ArrayList<Move> moveHistory) {
+    public GameBoard(ArrayList<Move> moveHistory) {
         flips = new ArrayList<>();
         board = new int[8][8];
 

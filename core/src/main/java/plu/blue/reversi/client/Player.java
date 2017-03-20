@@ -2,9 +2,10 @@ package plu.blue.reversi.client;
 
 /**
  * Created by John on 3/13/2017.
+ *
  */
 /**
- * Pivate Inner Class
+ *
  * Holds the information about a player.
  */
 public class Player {

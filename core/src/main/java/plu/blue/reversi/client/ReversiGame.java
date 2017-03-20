@@ -77,7 +77,6 @@ public class ReversiGame
         return flips;
     }
 
-
     /**
      * Sets everything in the board to blank except for the inner pieces.
      */
