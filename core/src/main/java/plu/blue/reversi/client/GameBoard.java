@@ -256,6 +256,26 @@ public class GameBoard {
     }
 
     /**
+     * TODO: implemnt this method
+     * @return The Legal Moves for this player
+     */
+    public ArrayList<Coordinate> getLegalMoves(int playerColor) {
+        int row = board.length;
+        int col = row;
+        ArrayList<Coordinate> moves = new ArrayList<Coordinate>();
+
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++) {
+                flips.clear();
+                isLegalMove(playerColor, i, j);
+                if(!flips.isEmpty())
+                    moves.add(new Coordinate(i,j));
+            }
+        }
+        return moves;
+    }
+
+    /**
      * Sets everything in the board to blank except for the inner pieces.
      */
     public void newGame() {

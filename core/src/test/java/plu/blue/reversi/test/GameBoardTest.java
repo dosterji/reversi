@@ -48,4 +48,28 @@ public class GameBoardTest {
                 "  -  -  -  -  -  -  -  -\n";
         Assert.assertEquals(s, board1.toString());
     }
+
+    @Test
+    public void getLegalMovesForPLayer1() {
+        ArrayList<Coordinate> a = new ArrayList<Coordinate>();
+        Assert.assertEquals( board1.toString(), new GameBoard(history.getMoveHistory()).toString());
+        a = board1.getLegalMoves(1);
+        Assert.assertEquals(4, a.size());
+        Assert.assertEquals("D3", a.get(0).toString());
+        Assert.assertEquals("C4", a.get(1).toString());
+        Assert.assertEquals("F5", a.get(2).toString());
+        Assert.assertEquals("E6", a.get(3).toString());
+        }
+
+    @Test
+    public void getLegalMovesForPLayer2() {
+        ArrayList<Coordinate> a = new ArrayList<Coordinate>();
+        Assert.assertEquals( board1.toString(), new GameBoard(history.getMoveHistory()).toString());
+        a = board1.getLegalMoves(-1);
+        Assert.assertEquals(4, a.size());
+        Assert.assertEquals("E3", a.get(0).toString());
+        Assert.assertEquals("F4", a.get(1).toString());
+        Assert.assertEquals("C5", a.get(2).toString());
+        Assert.assertEquals("D6", a.get(3).toString());
+    }
 }

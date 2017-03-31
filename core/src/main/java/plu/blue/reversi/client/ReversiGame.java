@@ -49,6 +49,18 @@ public class ReversiGame
     public GameHistory getGameHistory() {
         return history;
     }
+
+    /**
+     * Swaps currentPlayer when the current turn is finished.
+     */
+    public void changeCurrentPlayer() {
+        if( currentPlayer.getName().equals(p1.getName())) {
+            currentPlayer = p2;
+        }
+        else {
+            currentPlayer = p1;
+        }
+    }
     /**
      * Make a move on the board as a player.
      * @param p the player making the move
@@ -67,14 +79,16 @@ public class ReversiGame
         history.addMove(new Move(new Coordinate(rowLocation, colLocation), p));
         System.out.println("\n" + toString());
 
-        //set current player
-        if( currentPlayer.getName().equals(p1.getName())) {
-            currentPlayer = p2;
-        }
-        else {
-            currentPlayer = p1;
-        }
+        changeCurrentPlayer();
+
         return flips;
+    }
+
+    /**
+     * @return the legal coordinates on te board in which the current player may place a piece
+     */
+    public ArrayList<Coordinate> getCurrentPlayerMoves() {
+        return board.getLegalMoves(currentPlayer.getColor());
     }
 
     /**
