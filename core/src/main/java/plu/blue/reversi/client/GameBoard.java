@@ -35,13 +35,10 @@ public class GameBoard {
      */
     public ArrayList<Coordinate> isLegalMove( int playerColor, int row, int col) {
         flips.clear();
-
         //check to see if the space is empty
         if( board[row][col] != 0 )
             return null;
-
         //if not, attempt to play them game
-        board[row][col] = playerColor;
         checkColumn( playerColor, row, col );
         checkRow( playerColor, row, col );
         checkLeftDiag( playerColor, row, col);

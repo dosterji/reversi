@@ -53,12 +53,14 @@ public class ReversiGame
     /**
      * Swaps currentPlayer when the current turn is finished.
      */
-    public void changeCurrentPlayer() {
+    public int changeCurrentPlayer() {
         if( currentPlayer.getName().equals(p1.getName())) {
             currentPlayer = p2;
+            return 2;
         }
         else {
             currentPlayer = p1;
+            return 1;
         }
     }
     /**
@@ -77,7 +79,6 @@ public class ReversiGame
             return null;
         board.update(playerColor, rowLocation, colLocation);
         history.addMove(new Move(new Coordinate(rowLocation, colLocation), p));
-        System.out.println("\n" + toString());
 
         changeCurrentPlayer();
 

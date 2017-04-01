@@ -36,6 +36,9 @@ public class BoardView extends JPanel implements MouseListener {
     /** The model for the game */
     private ReversiGame game;
 
+    /** The gui */
+    private GameWindow gui;
+
     /**
      * This is an internal class used to manage the animation of pieces flipping over.
      */
@@ -205,8 +208,9 @@ public class BoardView extends JPanel implements MouseListener {
      *
      * @param size width/height in pixels
      */
-    public BoardView( int size, ReversiGame game, PlayerInfoPanel playerPanel )
+    public BoardView( int size, ReversiGame game, PlayerInfoPanel playerPanel, GameWindow w )
     {
+        gui = w;
         this.game = game;
         this.size = size;
         this.setPreferredSize(new Dimension(500,500) );
@@ -294,7 +298,6 @@ public class BoardView extends JPanel implements MouseListener {
                     animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, WHITE, 150);
                 }
                 panel.setActivePlayer(1); //Set the active player back to 1 (black)
-
             } else {
                 for (int i = 0; i < flips.size(); i++) {
                     row = flips.get(i).getRowLocation();
@@ -304,8 +307,28 @@ public class BoardView extends JPanel implements MouseListener {
                 }
                 panel.setActivePlayer(2); //Set the active player back to 2 (white)
             }
-
+            System.out.println("\n" + game.toString());
             updateScoreBoard(game.getP1(), game.getP2()); //P1=black, P2=white
+
+            //Determine if the new player has any moves
+            ArrayList<Coordinate> moves = game.getCurrentPlayerMoves();
+            System.out.println("Number of Possible Next Moves: " + moves.size());
+            if(moves.isEmpty()) {
+                int p = game.changeCurrentPlayer();
+                panel.setActivePlayer(p);
+
+                moves = game.getCurrentPlayerMoves();
+                if(moves.isEmpty()) { //If Neither Player has any moves, game is over.
+                    int p1s = game.getP1().getScore();
+                    int p2s = game.getP2().getScore();
+                    if( p1s > p2s )
+                        JOptionPane.showMessageDialog(gui, "Black Player Wins");
+                    else if(p1s < p2s)
+                        JOptionPane.showMessageDialog(gui, "White Player Wins");
+                    else
+                        JOptionPane.showMessageDialog(gui, "Tie Game");
+                }
+            }
         }
         else{
             System.out.println("Invalid move");
