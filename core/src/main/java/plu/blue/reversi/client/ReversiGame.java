@@ -85,6 +85,24 @@ public class ReversiGame
     }
 
     /**
+     * Helper method to avoid cluster in BoardViewClass.
+     * It helps with the smoother flip animation.
+     * @return A coordinate adjusted
+     */
+    public Coordinate adjustCoordForFlipping(int cellRow, int cellCol, int row, int col) {
+        if( cellRow < row)
+            row -= 1;
+        if (cellRow > row)
+            row += 1;
+
+        if(cellCol < col)
+            col -= 1;
+        if(cellCol > col)
+            col += 1;
+
+        return new Coordinate(row,col);
+    }
+    /**
      * @return the legal coordinates on te board in which the current player may place a piece
      */
     public ArrayList<Coordinate> getCurrentPlayerMoves() {

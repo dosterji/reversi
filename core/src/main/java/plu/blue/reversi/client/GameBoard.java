@@ -256,7 +256,6 @@ public class GameBoard {
     }
 
     /**
-     * TODO: implemnt this method
      * @return The Legal Moves for this player
      */
     public ArrayList<Coordinate> getLegalMoves(int playerColor) {

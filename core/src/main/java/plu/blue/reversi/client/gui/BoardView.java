@@ -280,19 +280,28 @@ public class BoardView extends JPanel implements MouseListener {
         int cellCol = (int)Math.floor( x / cellSize );
         int color = game.getCurrentPlayerColor();
         System.out.printf("Cell row = %d col = %d PlayerColor = %d\n", cellRow, cellCol, color);
-        //Get it to animate
 
+        int row, col = 0;
+        Coordinate c;
+        //Get it to animate
         ArrayList<Coordinate> flips= game.move(game.getCurrentPlayer(), cellRow, cellCol);
         if(flips != null) {
             if (color == 1) { //if color is white
-                for (int i = 0; i < flips.size(); i++)
-                    animateFlipSequence(cellRow, cellCol, flips.get(i).getRowLocation(),
-                            flips.get(i).getColLocation(), EMPTY, WHITE, 150);
+                for (int i = 0; i < flips.size(); i++) {
+                    row = flips.get(i).getRowLocation();
+                    col = flips.get(i).getColLocation();
+                    c = game.adjustCoordForFlipping(cellRow,cellCol,row,col);
+                    animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, WHITE, 150);
+                }
                 panel.setActivePlayer(1); //Set the active player back to 1 (black)
+
             } else {
-                for (int i = 0; i < flips.size(); i++)
-                    animateFlipSequence(cellRow, cellCol, flips.get(i).getRowLocation(),
-                            flips.get(i).getColLocation(), EMPTY, BLACK, 150);
+                for (int i = 0; i < flips.size(); i++) {
+                    row = flips.get(i).getRowLocation();
+                    col = flips.get(i).getColLocation();
+                    c = game.adjustCoordForFlipping(cellRow,cellCol,row,col);
+                    animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, BLACK, 150);
+                }
                 panel.setActivePlayer(2); //Set the active player back to 2 (white)
             }
 
@@ -338,6 +347,9 @@ public class BoardView extends JPanel implements MouseListener {
         fAnimator.start();
     }
 
+    /**
+     * Starts a new Game
+     */
     public void newGame() {
         for(int i = 0; i <= 7; i++) {
             for(int j = 0; j <= 7; j++) {
