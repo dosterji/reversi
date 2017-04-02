@@ -24,7 +24,6 @@ public class ReversiGame
     public ReversiGame() {
         this("Player1", "Player2");
     }
-
     public ReversiGame(String name1, String name2) {
         p1 = new Player(name1, -1); //Black
         p2 = new Player(name2, 1);  //White
@@ -34,7 +33,14 @@ public class ReversiGame
         //Create the board
         newGame();
 
-    }// End Reversi Constructors
+    }
+    public ReversiGame(ReversiGame other) {
+        this.p1 = new Player(other.getP1());
+        this.p2 = new Player(other.getP2());
+        this.currentPlayer = other.p1;
+        this.history = new GameHistory();  //This field isn't important for the copy contructor
+        this.board = new GameBoard(other.getBoard());
+    } // End Reversi Constructors
 
     public Player getP1() { return p1; }
     public Player getP2() { return p2; }
@@ -91,9 +97,9 @@ public class ReversiGame
 
     /**
      * A method for updating the score after a move has been made.
-     * @param scoreBoard
-     * @param playerNumber
-     * @return
+     * @param scoreBoard A string representation of the board
+     * @param playerNumber 1 or 2
+     * @return returns the value for the score of the player after the current move.
      */
     public int calculateScore(String scoreBoard, int playerNumber) {
         char pieceColor = '-';

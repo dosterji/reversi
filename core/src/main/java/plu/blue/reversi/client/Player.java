@@ -24,6 +24,11 @@ public class Player {
         color = c;
         score = 2;
     }
+    public Player( Player other) {
+        name = other.getName();
+        color = other.getColor();
+        score = other.getScore();
+    }
 
     // +------------------+
     // | Getters & Setters|

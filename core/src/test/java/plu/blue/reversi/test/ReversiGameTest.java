@@ -15,13 +15,32 @@ import static org.junit.Assert.*;
  * Created by John on 3/31/2017.
  */
 public class ReversiGameTest {
+    private ReversiGame basic;
     private ReversiGame game;
 
     @Before
     public void init() {
+        basic = new ReversiGame();
         game = new ReversiGame();
     }
 
+    @Test
+    public void reversiCopyConstructor() {
+        ReversiGame game2 = new ReversiGame(game);
+        Assert.assertEquals(game.toString(), game2.toString());
+        Assert.assertNotEquals(game.getGameHistory(), game2.getGameHistory());
+        game2.move(game2.getP1(),2, 4);
+
+
+        Assert.assertNotEquals(game.toString(),game2.toString());
+        Assert.assertEquals(game.toString(), basic.toString());
+        Assert.assertNotEquals(game.getP1().getScore(), game2.getP1().getScore());
+        Assert.assertNotEquals(game.getP2().getScore(), game2.getP2().getScore());
+
+        basic.move(basic.getP1(),2,4);
+        Assert.assertEquals(basic.toString(), game2.toString());
+
+    }
     @Test
     public void adjustCoordForFlipping() throws Exception {
         Coordinate c = game.adjustCoordForFlipping(2,4,4,4);

@@ -5,7 +5,11 @@ package plu.blue.reversi.client;
  * Created by John on 4/2/2017.
  */
 public class CPU extends Player {
+    private int diff; // The CPU difficulty
     public CPU() {
         super("Computer Player", 1);
+        diff= 1;
     }
+
+
 }

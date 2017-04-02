@@ -23,6 +23,16 @@ public class GameBoard {
             board[m.getCoordinate().getRowLocation()][m.getCoordinate().getColLocation()] = m.getPlayer().getColor();
         }
     }
+    public GameBoard(GameBoard other) {
+        flips = new ArrayList<>();
+        board = new int[8][8];
+
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                board[i][j] = other.board[i][j];
+            }
+        }
+    }
 
     /**
      *
