@@ -22,7 +22,7 @@ public class ReversiGame
      * Reversi Constructors
      */
     public ReversiGame() {
-        this("Player1", "Player2");
+        this("PLAYER 1", "PLAYER 2");
     }
     public ReversiGame(String name1, String name2) {
         p1 = new Player(name1, -1); //Black

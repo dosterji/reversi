@@ -18,6 +18,7 @@ public class CPU extends Player {
 
     public BestMove move(ReversiGame other) {
         game = new ReversiGame(other);
+
         ArrayList<Coordinate> a = game.getCurrentPlayerMoves();
         BestMove m = new BestMove(game, a);
 

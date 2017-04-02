@@ -69,6 +69,7 @@ public class GameWindow extends JFrame {
         this.add(boardPanel, BorderLayout.CENTER);
         this.pack();
         this.setVisible(true);
+        newGame();
     }
 
     /**
@@ -89,12 +90,16 @@ public class GameWindow extends JFrame {
         game.newGame();
         historyPanel.newGame();
         boardView.newGame();
-        game.setP2(new Player("Player 2", 1));
+        game.setP2(new Player("PLAYER 2", 1));
+        playerInfoPanel.setPlayerName(1, game.getP1().getName());
+        playerInfoPanel.setPlayerName(2, game.getP2().getName());
     }
     public void newCPUGame() {
         game.newGame();
         historyPanel.newGame();
         boardView.newGame();
         game.setP2(new CPU());
+        playerInfoPanel.setPlayerName(1, game.getP1().getName());
+        playerInfoPanel.setPlayerName(2, game.getP2().getName());
     }
 }

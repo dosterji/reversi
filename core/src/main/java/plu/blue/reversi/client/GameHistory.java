@@ -18,8 +18,8 @@ public class GameHistory {
      */
     public GameHistory() {
         moveHistory = new ArrayList<>();
-        Player p1 = new Player("Player1", -1);
-        Player p2 = new Player("Player2", 1);
+        Player p1 = new Player("Setup", -1);
+        Player p2 = new Player("Setup", 1);
 
         moveHistory.add(new Move(new Coordinate(3, 3), p1));
         moveHistory.add(new Move(new Coordinate(3, 4), p2));
