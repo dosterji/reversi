@@ -1,5 +1,6 @@
 package plu.blue.reversi.client.gui;
 
+import plu.blue.reversi.client.CPU;
 import plu.blue.reversi.client.ReversiGame;
 
 import javax.swing.*;
@@ -87,5 +88,11 @@ public class GameWindow extends JFrame {
         game.newGame();
         historyPanel.newGame();
         boardView.newGame();
+    }
+    public void newCPUGame() {
+        game.newGame();
+        historyPanel.newGame();
+        boardView.newGame();
+        game.setP2(new CPU());
     }
 }

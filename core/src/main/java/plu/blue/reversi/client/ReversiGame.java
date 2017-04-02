@@ -38,6 +38,7 @@ public class ReversiGame
 
     public Player getP1() { return p1; }
     public Player getP2() { return p2; }
+    public void setP2(CPU comp) {p2 = comp; }
     public GameBoard getBoard() { return board; }
     public Player getCurrentPlayer() {
         return currentPlayer;

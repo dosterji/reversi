@@ -21,6 +21,9 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
     /** New Game item */
     private JMenuItem newGameItem;
 
+    /** New Computer item */
+    private JMenuItem newCPUItem;
+
     /**
      * Constructs the menu bar
      *
@@ -46,9 +49,17 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         newGameItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_N, ActionEvent.META_MASK));
         newGameItem.getAccessibleContext().setAccessibleDescription(
-                "Start a new game against the computer");
+                "Start a new game with a local player");
         newGameItem.addActionListener(this);
         menu.add(newGameItem);
+
+        newCPUItem = new JMenuItem("New CPU Game");
+        newCPUItem.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_N, ActionEvent.META_MASK));
+        newCPUItem.getAccessibleContext().setAccessibleDescription(
+                "Start a new game against the computer");
+        newCPUItem.addActionListener(this);
+        menu.add(newCPUItem);
 
         JMenuItem menuItem = new JMenuItem("New Online Game");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
@@ -84,6 +95,9 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         }
         if(e.getSource() == newGameItem) {
             gui.newGame();
+        }
+        if(e.getSource() == newCPUItem) {
+            gui.newCPUGame();
         }
     }
 }
