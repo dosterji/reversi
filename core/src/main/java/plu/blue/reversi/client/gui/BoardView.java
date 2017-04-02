@@ -308,7 +308,8 @@ public class BoardView extends JPanel implements MouseListener {
                 panel.setActivePlayer(2); //Set the active player back to 2 (white)
             }
             System.out.println("\n" + game.toString());
-            updateScoreBoard(game.getP1(), game.getP2()); //P1=black, P2=white
+            panel.setScore(1, game.getP1().getScore());
+            panel.setScore(2, game.getP2().getScore());
 
             //Determine if the new player has any moves
             ArrayList<Coordinate> moves = game.getCurrentPlayerMoves();
@@ -386,44 +387,7 @@ public class BoardView extends JPanel implements MouseListener {
         animateFlipSequence(4, 4, 4, 4, EMPTY, BLACK, 150);
 
         panel.setActivePlayer(1);
-        updateScoreBoard(game.getP1(),game.getP2());
-    }
-
-    /**
-     * Updates the PlayerInfoPlayer Object; setting the score per player, which is
-     * located displayed inside the colored circle on the GUI
-     */
-    public void updateScoreBoard(Player player1, Player player2) {
-
-        int score1 = calculateScore(game.toString(), 1);
-        int score2 = calculateScore(game.toString(), 2);
-
-        player1.setScore(score1);
-        player2.setScore(score2);
-        panel.setScore(1, player1.getScore());
-        panel.setScore(2, player2.getScore());
-    }
-
-
-    public int calculateScore(String scoreBoard, int playerNumber) {
-        char pieceColor = '-';
-        int score = 0;
-        int index = 0;
-
-        if(playerNumber == 1)
-            pieceColor = 'B';
-        else pieceColor = 'W';
-
-        //System.out.println("Piece Color is: "  + pieceColor);
-
-        while( index < scoreBoard.length() ) {
-            if (scoreBoard.charAt(index) == pieceColor) {
-                //System.out.println("Character: " + scoreBoard.charAt(index));
-                score = score + 1;
-            }
-            index = index + 1;
-            //System.out.println("P-" + playerNumber +  " S-" + score + " I-" + index );
-        }
-        return score;
+        panel.setScore(1, game.getP1().getScore());
+        panel.setScore(2, game.getP2().getScore());
     }
 }

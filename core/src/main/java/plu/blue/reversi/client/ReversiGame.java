@@ -82,7 +82,38 @@ public class ReversiGame
 
         changeCurrentPlayer();
 
+        p1.setScore(calculateScore(toString(), 1));
+        p2.setScore(calculateScore(toString(), 2));
+
         return flips;
+    }
+
+    /**
+     * A method for updating the score after a move has been made.
+     * @param scoreBoard
+     * @param playerNumber
+     * @return
+     */
+    public int calculateScore(String scoreBoard, int playerNumber) {
+        char pieceColor = '-';
+        int score = 0;
+        int index = 0;
+
+        if(playerNumber == 1)
+            pieceColor = 'B';
+        else pieceColor = 'W';
+
+        //System.out.println("Piece Color is: "  + pieceColor);
+
+        while( index < scoreBoard.length() ) {
+            if (scoreBoard.charAt(index) == pieceColor) {
+                //System.out.println("Character: " + scoreBoard.charAt(index));
+                score = score + 1;
+            }
+            index = index + 1;
+            //System.out.println("P-" + playerNumber +  " S-" + score + " I-" + index );
+        }
+        return score;
     }
 
     /**
@@ -117,6 +148,8 @@ public class ReversiGame
         board.newGame();
         history.newGame();
         currentPlayer = p1;
+        p1.setScore(2);
+        p2.setScore(2);
     }
 
     /**
