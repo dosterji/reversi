@@ -2,6 +2,7 @@ package plu.blue.reversi.client.gui;
 
 import org.jdesktop.core.animation.timing.Animator;
 import org.jdesktop.core.animation.timing.TimingTargetAdapter;
+import plu.blue.reversi.client.CPU;
 import plu.blue.reversi.client.Coordinate;
 import plu.blue.reversi.client.Player;
 import plu.blue.reversi.client.ReversiGame;
@@ -314,22 +315,39 @@ public class BoardView extends JPanel implements MouseListener {
             //Determine if the new player has any moves
             ArrayList<Coordinate> moves = game.getCurrentPlayerMoves();
             System.out.println("Number of Possible Next Moves: " + moves.size());
-            if(moves.isEmpty()) {
-                int p = game.changeCurrentPlayer();
-                panel.setActivePlayer(p);
+            if(!moves.isEmpty()) {
+                if (game.getCurrentPlayer() instanceof CPU) {
+                    flips = game.makeCPUMove();
+                    cellRow = flips.get(0).getRowLocation();
+                    cellCol = flips.get(0).getColLocation();
 
-                moves = game.getCurrentPlayerMoves();
-                if(moves.isEmpty()) { //If Neither Player has any moves, game is over.
-                    int p1s = game.getP1().getScore();
-                    int p2s = game.getP2().getScore();
-                    if( p1s > p2s )
-                        JOptionPane.showMessageDialog(gui, "Black Player Wins");
-                    else if(p1s < p2s)
-                        JOptionPane.showMessageDialog(gui, "White Player Wins");
-                    else
-                        JOptionPane.showMessageDialog(gui, "Tie Game");
+                    for (int i = 1; i < flips.size(); i++) {
+                        row = flips.get(i).getRowLocation();
+                        col = flips.get(i).getColLocation();
+                        c = game.adjustCoordForFlipping(cellRow, cellCol, row, col);
+                        animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, WHITE, 150);
+                    }
+                    System.out.println("\n" + game.toString());
+                    panel.setActivePlayer(1); //Set the active player back to 1 (black)
                 }
             }
+             else {
+                    int p = game.changeCurrentPlayer();
+                    panel.setActivePlayer(p);
+
+                    moves = game.getCurrentPlayerMoves();
+                    if (moves.isEmpty()) { //If Neither Player has any moves, game is over.
+                        int p1s = game.getP1().getScore();
+                        int p2s = game.getP2().getScore();
+                        if (p1s > p2s)
+                            JOptionPane.showMessageDialog(gui, "Black Player Wins");
+                        else if (p1s < p2s)
+                            JOptionPane.showMessageDialog(gui, "White Player Wins");
+                        else
+                            JOptionPane.showMessageDialog(gui, "Tie Game");
+                    }
+            }
+
         }
         else{
             System.out.println("Invalid move");

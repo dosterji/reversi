@@ -210,10 +210,10 @@ public class GameBoard {
     public void update(int playerColor, int rowLocation, int colLocation) {
         //player changes board
         board[rowLocation][colLocation] = playerColor;
-        System.out.println("Coordinates: ");
+        //System.out.println("Coordinates: ");
         for(int i=0; i<flips.size(); i++) {
             Coordinate current = flips.get(i);
-            System.out.print(current.toString() + " ");
+            //System.out.print(current.toString() + " ");
             //update board[][]
             if(current.getRowLocation() == rowLocation) {
                 if(current.getColLocation() > colLocation){

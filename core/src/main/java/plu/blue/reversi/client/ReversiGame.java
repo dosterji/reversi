@@ -37,7 +37,7 @@ public class ReversiGame
     public ReversiGame(ReversiGame other) {
         this.p1 = new Player(other.getP1());
         this.p2 = new Player(other.getP2());
-        this.currentPlayer = other.p1;
+        this.currentPlayer = new Player(other.getCurrentPlayer());
         this.history = new GameHistory();  //This field isn't important for the copy contructor
         this.board = new GameBoard(other.getBoard());
     } // End Reversi Constructors
@@ -45,6 +45,7 @@ public class ReversiGame
     public Player getP1() { return p1; }
     public Player getP2() { return p2; }
     public void setP2(CPU comp) {p2 = comp; }
+    public void setP2(Player p) {p2 = p; }
     public GameBoard getBoard() { return board; }
     public void setBoard(GameBoard board) { this.board = board;}
     public Player getCurrentPlayer() {
@@ -122,6 +123,17 @@ public class ReversiGame
             //System.out.println("P-" + playerNumber +  " S-" + score + " I-" + index );
         }
         return score;
+    }
+
+    public ArrayList<Coordinate> makeCPUMove() {
+        BestMove m =((CPU) p2).move(this);
+        ArrayList<Coordinate> a = new ArrayList<Coordinate>();
+        ArrayList<Coordinate> moves = move(currentPlayer, m.getBest().getRowLocation(), m.getBest().getColLocation());
+        a.add(m.getBest());
+        for(int i = 0; i < moves.size(); i++ )
+            a.add(moves.get(i));
+
+        return a;
     }
 
     /**

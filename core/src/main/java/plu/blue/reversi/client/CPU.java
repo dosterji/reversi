@@ -16,11 +16,11 @@ public class CPU extends Player {
         game = null;
     }//End constructor
 
-    public ArrayList<Coordinate> move(ReversiGame other) {
+    public BestMove move(ReversiGame other) {
         game = new ReversiGame(other);
         ArrayList<Coordinate> a = game.getCurrentPlayerMoves();
         BestMove m = new BestMove(game, a);
 
-        return null;
+        return m;
     }
 }
