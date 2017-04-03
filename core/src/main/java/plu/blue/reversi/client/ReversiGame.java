@@ -126,10 +126,10 @@ public class ReversiGame
     }
 
     public ArrayList<Coordinate> makeCPUMove() {
-        BestMove m =((CPU) p2).move(this);
+        Coordinate m =((CPU) p2).move(this);
         ArrayList<Coordinate> a = new ArrayList<Coordinate>();
-        ArrayList<Coordinate> moves = move(currentPlayer, m.getBest().getRowLocation(), m.getBest().getColLocation());
-        a.add(m.getBest());
+        ArrayList<Coordinate> moves = move(currentPlayer, m.getRowLocation(), m.getColLocation());
+        a.add(m);
         for(int i = 0; i < moves.size(); i++ )
             a.add(moves.get(i));
 

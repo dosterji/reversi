@@ -4,6 +4,16 @@ import java.util.ArrayList;
 
 /**
  * Find the Best Move when given an ArrayList of Coordinates
+ * It does this based upon the formula:
+ *
+ *          (Player2Score - player1Score)
+ * value =   ----------------------------
+ *          (PLayer2Score + Player1Score)
+ *
+ * The more negative the value for a move, the better the move
+ * is for player 1.  The more positive, the better the move is for
+ * player 2.
+ *
  * Created by John on 4/2/2017.
  */
 public class BestMove {
@@ -11,6 +21,11 @@ public class BestMove {
     ////////////////////////
     // Private Inner Class//
     ////////////////////////
+
+    /**
+     * This class finds the "Value" for each move by making the
+     * move on a copy of the ReversiGame and then calculating value
+     */
     private class Node {
         private double value;
         private Coordinate coord;
@@ -31,6 +46,10 @@ public class BestMove {
     //   Best Move Class   //
     /////////////////////////
 
+    /**
+     * This is basically just a constructor.  It sets the field "best"
+     * to the coordinate for the best value for the current Player.
+     */
     private double alpha = 1.0;
     private double beta = -1.0;
     private Coordinate best;
@@ -56,6 +75,10 @@ public class BestMove {
         val = target.getValue();
     }
 
+    /**
+     * Some Getters
+     * @return the fields
+     */
     public Coordinate getBest() {return best;}
     public double getVal() {return val;}
 } //End Class
