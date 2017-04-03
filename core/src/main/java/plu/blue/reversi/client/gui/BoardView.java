@@ -14,9 +14,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import static plu.blue.reversi.client.gui.BoardView.CellColor.BLACK;
-import static plu.blue.reversi.client.gui.BoardView.CellColor.EMPTY;
-import static plu.blue.reversi.client.gui.BoardView.CellColor.WHITE;
+import static plu.blue.reversi.client.gui.BoardView.CellColor.*;
 
 /**
  * The JPanel containing the board and its edges.
@@ -39,6 +37,9 @@ public class BoardView extends JPanel implements MouseListener {
 
     /** The gui */
     private GameWindow gui;
+
+    /** Sets the state of activating available moves for a player.*/
+    private boolean activateDisplay;
 
     /**
      * This is an internal class used to manage the animation of pieces flipping over.
@@ -160,7 +161,7 @@ public class BoardView extends JPanel implements MouseListener {
     }
 
     public enum CellColor {
-        WHITE, BLACK, EMPTY
+        WHITE, BLACK, EMPTY, GRAY
     }
 
     private class CellState {
@@ -192,6 +193,9 @@ public class BoardView extends JPanel implements MouseListener {
 
                 if (cellColor == CellColor.BLACK)
                     g.setColor(Color.black);
+                else if(cellColor == CellColor.GRAY) {
+                    g.setColor(Color.lightGray);
+                }
                 else
                     g.setColor(Color.white);
 
@@ -288,25 +292,33 @@ public class BoardView extends JPanel implements MouseListener {
 
         int row, col = 0;
         Coordinate c;
+        displayMoves(false);
         //Get it to animate
         ArrayList<Coordinate> flips= game.move(game.getCurrentPlayer(), cellRow, cellCol);
+        //
         if(flips != null) {
             if (color == 1) { //if color is white
+                //
                 for (int i = 0; i < flips.size(); i++) {
                     row = flips.get(i).getRowLocation();
                     col = flips.get(i).getColLocation();
                     c = game.adjustCoordForFlipping(cellRow,cellCol,row,col);
                     animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, WHITE, 150);
                 }
+                displayMoves(activateDisplay);
                 panel.setActivePlayer(1); //Set the active player back to 1 (black)
+
             } else {
+                //
                 for (int i = 0; i < flips.size(); i++) {
                     row = flips.get(i).getRowLocation();
                     col = flips.get(i).getColLocation();
                     c = game.adjustCoordForFlipping(cellRow,cellCol,row,col);
                     animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, BLACK, 150);
                 }
+                displayMoves(activateDisplay);
                 panel.setActivePlayer(2); //Set the active player back to 2 (white)
+
             }
             System.out.println("\n" + game.toString());
             panel.setScore(1, game.getP1().getScore());
@@ -407,5 +419,33 @@ public class BoardView extends JPanel implements MouseListener {
         panel.setActivePlayer(1);
         panel.setScore(1, game.getP1().getScore());
         panel.setScore(2, game.getP2().getScore());
+    }
+
+    public void setMovesDisplay(boolean activateState) {
+        activateDisplay = activateState;
+    }
+
+    public void displayMoves(boolean activateDisplay) {
+
+        int color = game.getCurrentPlayerColor();
+        ArrayList<Coordinate> playersMoves = game.getBoard().getLegalMoves(color);
+        if(activateDisplay) {
+            System.out.println("Display Activated...");
+            for(Coordinate coord : playersMoves) {
+                System.out.println("Entered Coordinates: (" + coord.getColLocation()
+                        + "," + coord.getRowLocation() + ")" );
+                boardState[coord.getRowLocation()][coord.getColLocation()].setColor(GRAY);
+            }
+        }
+        else {
+            //Else don't display any available options.
+            //Display As Empty
+            /**/for(Coordinate coord : playersMoves) {
+                System.out.println("Entered Coordinates: (" + coord.getColLocation()
+                        + "," + coord.getRowLocation() + ")" );
+                boardState[coord.getRowLocation()][coord.getColLocation()].setColor(EMPTY);
+            }
+
+        }
     }
 }

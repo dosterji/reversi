@@ -19,7 +19,9 @@ public class DeveloperMenu extends JMenu implements ActionListener {
     private int whiteScore;
     private JMenuItem changePlayer1NameItem;
     private JMenuItem swapActivePlayerItem;
+    private JMenuItem displayMovesItem;
     private int activePlayer;
+    private boolean activateDisplay = false;
 
     private JMenuItem testServerItem;
 
@@ -61,6 +63,11 @@ public class DeveloperMenu extends JMenu implements ActionListener {
         testServerItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
         testServerItem.addActionListener(this);
         this.add(testServerItem);
+
+        displayMovesItem = new JMenuItem("Display Available Moves: ");
+        displayMovesItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
+        displayMovesItem.addActionListener(this);
+        this.add(displayMovesItem);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -74,6 +81,8 @@ public class DeveloperMenu extends JMenu implements ActionListener {
             swapActivePlayer();
         } else if( e.getSource() == testServerItem ) {
             testServer();
+        } else if( e.getSource() == displayMovesItem) {
+            setMovesDisplay();
         }
     }
 
@@ -100,5 +109,15 @@ public class DeveloperMenu extends JMenu implements ActionListener {
 
     private void testServer() {
         // TODO: test a connection to the server.
+    }
+
+
+    private void setMovesDisplay() {
+        // Set a boolean that acts as a switch when the user
+        if(activateDisplay == false ) { activateDisplay = true; }
+        else activateDisplay = false;
+        System.out.println("Activate Display: " + activateDisplay);
+        gui.getBoardView().setMovesDisplay(activateDisplay);
+
     }
 }
