@@ -1,5 +1,8 @@
 package plu.blue.reversi.client;
 
+import plu.blue.reversi.client.gui.GameWindow;
+
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -170,6 +173,32 @@ public class ReversiGame
         currentPlayer = p1;
         p1.setScore(2);
         p2.setScore(2);
+    }
+
+    /**
+     * Method for determining if the game is over.
+     * @param gui The GameWindow
+     */
+    public void isEndGame(GameWindow gui) {
+        //Determine if the new player has any moves
+        ArrayList<Coordinate> moves = getCurrentPlayerMoves();
+        System.out.println("Number of Possible Next Moves: " + moves.size());
+        if(moves.isEmpty()) {
+            int p = changeCurrentPlayer();
+            gui.getPlayerInfoPanel().setActivePlayer(p);
+
+            moves = getCurrentPlayerMoves();
+            if (moves.isEmpty()) { //If Neither Player has any moves, game is over.
+                int p1s = getP1().getScore();
+                int p2s = getP2().getScore();
+                if (p1s > p2s)
+                    JOptionPane.showMessageDialog(gui, "Black Player Wins");
+                else if (p1s < p2s)
+                    JOptionPane.showMessageDialog(gui, "White Player Wins");
+                else
+                    JOptionPane.showMessageDialog(gui, "Tie Game");
+            }
+        }
     }
 
     /**

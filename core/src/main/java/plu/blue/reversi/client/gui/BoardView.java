@@ -35,6 +35,9 @@ public class BoardView extends JPanel implements MouseListener {
     /** The model for the game */
     private ReversiGame game;
 
+    /** For help with the CPU animation */
+    private AnimationState threads;
+
     /** The gui */
     private GameWindow gui;
 
@@ -58,6 +61,9 @@ public class BoardView extends JPanel implements MouseListener {
                 c.height = 1.0f;
             }
             repaint();
+            threads.pop();
+            if(threads.peek())
+                animateComputerMove();
         }
 
         @Override
@@ -94,6 +100,7 @@ public class BoardView extends JPanel implements MouseListener {
                 c.height = 1.0f;
             }
             repaint();
+            threads.push();
         }
 
         public FlipAnimator(int startRow, int startCol,
@@ -215,6 +222,7 @@ public class BoardView extends JPanel implements MouseListener {
      */
     public BoardView( int size, ReversiGame game, PlayerInfoPanel playerPanel, GameWindow w )
     {
+        threads = new AnimationState();
         gui = w;
         this.game = game;
         this.size = size;
@@ -318,70 +326,49 @@ public class BoardView extends JPanel implements MouseListener {
                 }
                 displayMoves(activateDisplay);
                 panel.setActivePlayer(2); //Set the active player back to 2 (white)
-
             }
             System.out.println("\n" + game.toString());
             panel.setScore(1, game.getP1().getScore());
             panel.setScore(2, game.getP2().getScore());
 
-            //Determine if the new player has any moves
-            ArrayList<Coordinate> moves = game.getCurrentPlayerMoves();
-            System.out.println("Number of Possible Next Moves: " + moves.size());
-            if(!moves.isEmpty()) {
-                if (game.getCurrentPlayer() instanceof CPU) {
-                    flips = game.makeCPUMove();
-                    cellRow = flips.get(0).getRowLocation();
-                    cellCol = flips.get(0).getColLocation();
-
-                    for (int i = 1; i < flips.size(); i++) {
-                        row = flips.get(i).getRowLocation();
-                        col = flips.get(i).getColLocation();
-                        c = game.adjustCoordForFlipping(cellRow, cellCol, row, col);
-                        animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, WHITE, 150);
-                    }
-                    System.out.println("\n" + game.toString());
-                    panel.setScore(1, game.getP1().getScore());
-                    panel.setScore(2, game.getP2().getScore());
-                    panel.setActivePlayer(1); //Set the active player back to 1 (black)
-                }
-            }
-             else {
-                    int p = game.changeCurrentPlayer();
-                    panel.setActivePlayer(p);
-
-                    moves = game.getCurrentPlayerMoves();
-                    if (moves.isEmpty()) { //If Neither Player has any moves, game is over.
-                        int p1s = game.getP1().getScore();
-                        int p2s = game.getP2().getScore();
-                        if (p1s > p2s)
-                            JOptionPane.showMessageDialog(gui, "Black Player Wins");
-                        else if (p1s < p2s)
-                            JOptionPane.showMessageDialog(gui, "White Player Wins");
-                        else
-                            JOptionPane.showMessageDialog(gui, "Tie Game");
-                    }
-            }
-
+            game.isEndGame(gui);
         }
         else{
             System.out.println("Invalid move");
         }
     }
+    public void mousePressed(MouseEvent e) {}
 
-    public void mousePressed(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {}
 
-    }
+    public void mouseEntered(MouseEvent e) {}
 
-    public void mouseReleased(MouseEvent e) {
+    public void mouseExited(MouseEvent e) {}
 
-    }
+    public void animateComputerMove() {
+        if (game.getCurrentPlayer() instanceof CPU) {
+            int cellRow, cellCol, row, col;
+            Coordinate c;
+            ArrayList<Coordinate> flips;
 
-    public void mouseEntered(MouseEvent e) {
 
-    }
+            flips = game.makeCPUMove();
+            cellRow = flips.get(0).getRowLocation();
+            cellCol = flips.get(0).getColLocation();
 
-    public void mouseExited(MouseEvent e) {
+            for (int i = 1; i < flips.size(); i++) {
+                row = flips.get(i).getRowLocation();
+                col = flips.get(i).getColLocation();
+                c = game.adjustCoordForFlipping(cellRow, cellCol, row, col);
+                animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, WHITE, 150);
+            }
+            System.out.println("\n" + game.toString());
+            panel.setScore(1, game.getP1().getScore());
+            panel.setScore(2, game.getP2().getScore());
+            panel.setActivePlayer(1); //Set the active player back to 1 (black)
 
+            game.isEndGame(gui);
+        }
     }
 
     /**
@@ -447,7 +434,6 @@ public class BoardView extends JPanel implements MouseListener {
                         + "," + coord.getRowLocation() + ")" );
                 boardState[coord.getRowLocation()][coord.getColLocation()].setColor(EMPTY);
             }
-
         }
     }
 }
