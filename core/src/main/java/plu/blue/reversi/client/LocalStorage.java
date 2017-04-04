@@ -1,9 +1,6 @@
 package plu.blue.reversi.client;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.HashMap;
 
 /**
@@ -12,7 +9,6 @@ import java.util.HashMap;
  */
 public class LocalStorage {
 
-    // Field declarations
     private HashMap<String, GameHistory> savedGames;
 
     /**
@@ -20,6 +16,31 @@ public class LocalStorage {
      */
     public LocalStorage() {
         savedGames = new HashMap<>();
+        preloadGames();
+    }
+
+    /**
+     * Loads local save games into memory for easy retrieval
+     */
+    @SuppressWarnings("unchecked")
+    private void preloadGames() {
+        File saveFile = new File("savedGames.ser");
+
+        try {
+            if (saveFile.createNewFile()) {
+                System.out.println("savedGames.ser created");
+            } else {
+                FileInputStream fileIn = new FileInputStream(saveFile);
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+
+                savedGames = (HashMap<String, GameHistory>) in.readObject();
+
+                fileIn.close();
+                in.close();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -30,7 +51,7 @@ public class LocalStorage {
     public void saveGame(String saveName, GameHistory game) {
         savedGames.put(saveName, game);
 
-        File saveFile = new File("src/main/resources/savedGames.ser");
+        File saveFile = new File("savedGames.ser");
 
         // Saves list of saved games to local serialized file
         try {
