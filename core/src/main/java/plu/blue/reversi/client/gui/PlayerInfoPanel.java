@@ -26,7 +26,6 @@ public class PlayerInfoPanel extends JPanel {
         player2Score = new ScoreIcon(Color.white, Color.black);
         player1Score = new ScoreIcon(Color.black, Color.white);
 
-        // TODO: These names should be retrieved from the model
         player1NameLabel = new JLabel();
         player2NameLabel = new JLabel();
 
