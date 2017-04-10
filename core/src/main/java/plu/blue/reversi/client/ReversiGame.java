@@ -1,5 +1,6 @@
 package plu.blue.reversi.client;
 
+import java.io.Serializable;
 import plu.blue.reversi.client.gui.GameWindow;
 
 import javax.swing.*;
@@ -10,8 +11,7 @@ import java.util.ArrayList;
  * It contains all of the information about the board
  * and players.
  */
-public class ReversiGame
-{
+public class ReversiGame implements Serializable {
     /* The Players*/
     private Player p1;
     private Player p2;

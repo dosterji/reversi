@@ -84,3 +84,6 @@ hs_err_pid*
 
 # Ignore modules.xml due to constant changing from different environments
 /.idea/modules.xml
+
+# Ignore saved games file
+savedGames.ser

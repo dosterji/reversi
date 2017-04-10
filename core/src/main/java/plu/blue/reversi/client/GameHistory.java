@@ -1,17 +1,20 @@
 package plu.blue.reversi.client;
 
 import javax.swing.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Class that represents the history of a Reversi game instance
  * @author Adam Grieger
  */
-public class GameHistory {
+public class GameHistory implements Serializable {
 
     // Field declarations
     private ArrayList<Move> moveHistory;
-    private JTable tableRef;
+
+    // Transient here means that tableRef won't be serialized
+    private transient JTable tableRef;
 
     /**
      * GameHistory constructor

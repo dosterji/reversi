@@ -1,14 +1,12 @@
 package plu.blue.reversi.client;
 
+import java.io.Serializable;
+
 /**
- * Created by John on 3/13/2017.
- *
- */
-/**
- *
  * Holds the information about a player.
+ * Created by John on 3/13/2017
  */
-public class Player {
+public class Player implements Serializable {
     //fields
     private String name;
     private int score;

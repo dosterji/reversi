@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 public class LocalStorage {
 
-    private HashMap<String, GameHistory> savedGames;
+    private HashMap<String, ReversiGame> savedGames;
 
     /**
      * LocalStorage constructor
@@ -33,11 +33,13 @@ public class LocalStorage {
                 FileInputStream fileIn = new FileInputStream(saveFile);
                 ObjectInputStream in = new ObjectInputStream(fileIn);
 
-                savedGames = (HashMap<String, GameHistory>) in.readObject();
+                savedGames = (HashMap<String, ReversiGame>) in.readObject();
 
                 fileIn.close();
                 in.close();
             }
+        } catch (EOFException e) {
+            System.out.println("No saved games found");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -46,9 +48,9 @@ public class LocalStorage {
     /**
      * Saves a GameHistory to a flat file with a given save name
      * @param saveName the name given to the saved game
-     * @param game the GameHistory to save
+     * @param game the ReversiGame to save
      */
-    public void saveGame(String saveName, GameHistory game) {
+    public void saveGame(String saveName, ReversiGame game) {
         savedGames.put(saveName, game);
 
         File saveFile = new File("savedGames.ser");
@@ -69,6 +71,14 @@ public class LocalStorage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Object[] getSavedGameNames() {
+        return savedGames.keySet().toArray();
+    }
+
+    public ReversiGame getSavedGame(String saveName) {
+        return savedGames.get(saveName);
     }
 
 }

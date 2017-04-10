@@ -1,10 +1,12 @@
 package plu.blue.reversi.client;
 
+import java.io.Serializable;
+
 /**
  * A class that holds the information for a particular move.
  * Created by John on 3/17/2017.
  */
-public class Move {
+public class Move implements Serializable {
     /*The Coordinate at which the move was made */
     private Coordinate cell;
     /* The player who made the move */
