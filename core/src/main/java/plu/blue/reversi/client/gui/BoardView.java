@@ -2,10 +2,7 @@ package plu.blue.reversi.client.gui;
 
 import org.jdesktop.core.animation.timing.Animator;
 import org.jdesktop.core.animation.timing.TimingTargetAdapter;
-import plu.blue.reversi.client.CPU;
-import plu.blue.reversi.client.Coordinate;
-import plu.blue.reversi.client.Player;
-import plu.blue.reversi.client.ReversiGame;
+import plu.blue.reversi.client.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -239,12 +236,10 @@ public class BoardView extends JPanel implements MouseListener {
         panel.setScore(2, game.getP2().getScore());
 
         // Set up the initial board
-        // TODO: This should really be determined by the model.  This should be removed and replaced with something
-        // that queries the model for the board state.
-        boardState[3][3].setColor(BLACK);
-        boardState[3][4].setColor(WHITE);
-        boardState[4][3].setColor(WHITE);
-        boardState[4][4].setColor(BLACK);
+        for (Move m : game.getGameHistory().getMoveHistory()) {
+            boardState[m.getCoordinate().getRowLocation()][m.getCoordinate().getColLocation()]
+                    .setColor(m.getPlayer().getColor() == -1 ? BLACK : WHITE);
+        }
 
         fAnimator = null;
         this.addMouseListener(this);

@@ -1,6 +1,7 @@
 package plu.blue.reversi.client.gui;
 
 import plu.blue.reversi.client.CPU;
+import plu.blue.reversi.client.LocalStorage;
 import plu.blue.reversi.client.Player;
 import plu.blue.reversi.client.ReversiGame;
 
@@ -24,15 +25,36 @@ public class GameWindow extends JFrame {
     /** The model for the game */
     private ReversiGame game;
 
+    // Local storage for the GameWindow instance
+    private LocalStorage storage;
+
     /**
      * Constructs a new main window for the game.
      */
-    public GameWindow()
-    {
-        setTitle("Reversi");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+    public GameWindow() {
         game = new ReversiGame();
+        setTitle("Reversi");
+        init();
+        newGame();
+    }
+
+    /**
+     * Constructs a new main window for this game from an existing game.
+     * @param rg the ReversiGame to load
+     */
+    public GameWindow(ReversiGame rg, String saveName) {
+        game = rg;
+        setTitle("Reversi - " + saveName);
+        init();
+    }
+
+    /**
+     * GUI setup that is common for new games and loaded games
+     */
+    private void init() {
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        storage = new LocalStorage();
 
         // Add the menu bar
         this.setJMenuBar(new ReversiMenuBar(this));
@@ -42,18 +64,18 @@ public class GameWindow extends JFrame {
 
         // Other panels
         playerInfoPanel = new PlayerInfoPanel();
-        boardView = new BoardView(8, game, playerInfoPanel, this );
+        boardView = new BoardView(8, game, playerInfoPanel, this);
 
         // This panel will preserve the aspect ratio of the component within it
-        JPanel preserveAspectPanel = new JPanel(new PreserveAspectRatioLayout() );
+        JPanel preserveAspectPanel = new JPanel(new PreserveAspectRatioLayout());
 
         // The board and edges
-        JPanel boardAndEdges = new JPanel( new BorderLayout() );
+        JPanel boardAndEdges = new JPanel(new BorderLayout());
         boardAndEdges.add(BoardEdges.createTopPanel(8), BorderLayout.NORTH);
         boardAndEdges.add(BoardEdges.createLeftPanel(8), BorderLayout.WEST);
         boardAndEdges.add(boardView, BorderLayout.CENTER);
-        boardAndEdges.setBorder(BorderFactory.createMatteBorder(0,0,BoardEdges.EDGE_HEIGHT,
-                BoardEdges.EDGE_WIDTH,BoardEdges.BACKGROUND_COLOR));
+        boardAndEdges.setBorder(BorderFactory.createMatteBorder(0, 0, BoardEdges.EDGE_HEIGHT,
+                BoardEdges.EDGE_WIDTH, BoardEdges.BACKGROUND_COLOR));
 
         preserveAspectPanel.add(boardAndEdges);
 
@@ -65,11 +87,10 @@ public class GameWindow extends JFrame {
         // History panel goes in the EAST
         this.add(historyPanel, BorderLayout.EAST);
 
-        // The board panel goes in the center
+        // The board panel goes in the CENTER
         this.add(boardPanel, BorderLayout.CENTER);
         this.pack();
         this.setVisible(true);
-        newGame();
     }
 
     /**
@@ -101,5 +122,28 @@ public class GameWindow extends JFrame {
         game.setP2(new CPU());
         playerInfoPanel.setPlayerName(1, game.getP1().getName());
         playerInfoPanel.setPlayerName(2, game.getP2().getName());
+    }
+
+    /**
+     * Saves a ReversiGame to local storage
+     */
+    public void saveLocalGame() {
+        String saveName = JOptionPane.showInputDialog(
+                this, "Enter a name for this save file:", "Save Local Game", JOptionPane.PLAIN_MESSAGE
+        );
+        storage.saveGame(saveName, game);
+    }
+
+    /**
+     * Loads a ReversiGame from local storage
+     */
+    public void loadLocalGame() {
+        Object[] saveGameNames = storage.getSavedGameNames();
+        String saveName = (String) JOptionPane.showInputDialog(
+                this, "Select a save game:", "Load Local Game", JOptionPane.PLAIN_MESSAGE,
+                null, saveGameNames, saveGameNames[0]
+        );
+        ReversiGame savedGame = storage.getSavedGame(saveName);
+        new GameWindow(savedGame, saveName);
     }
 }
