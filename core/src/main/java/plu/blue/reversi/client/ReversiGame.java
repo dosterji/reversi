@@ -128,6 +128,10 @@ public class ReversiGame
         return score;
     }
 
+    /**
+     * Makes a move for the CPU
+     * @return an arrayList of flips
+     */
     public ArrayList<Coordinate> makeCPUMove() {
         Coordinate m =((CPU) p2).move(this);
         ArrayList<Coordinate> a = new ArrayList<Coordinate>();
@@ -189,14 +193,15 @@ public class ReversiGame
 
             moves = getCurrentPlayerMoves();
             if (moves.isEmpty()) { //If Neither Player has any moves, game is over.
+                JOptionPane end = new JOptionPane();
                 int p1s = getP1().getScore();
                 int p2s = getP2().getScore();
                 if (p1s > p2s)
-                    JOptionPane.showMessageDialog(gui, "Black Player Wins");
+                    end.showMessageDialog(gui, "Black Player Wins");
                 else if (p1s < p2s)
-                    JOptionPane.showMessageDialog(gui, "White Player Wins");
+                    end.showMessageDialog(gui, "White Player Wins");
                 else
-                    JOptionPane.showMessageDialog(gui, "Tie Game");
+                    end.showMessageDialog(gui, "Tie Game");
             }
         }
     }
