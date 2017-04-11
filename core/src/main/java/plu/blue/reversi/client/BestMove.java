@@ -49,7 +49,8 @@ public class BestMove {
     /**
      * This is basically just a constructor.  It sets the field "best"
      * to the coordinate for the best value for the current Player.
-     */
+    */
+
     private double alpha = 1.0;
     private double beta = -1.0;
     private Coordinate best;
