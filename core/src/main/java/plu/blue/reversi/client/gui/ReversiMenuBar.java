@@ -1,7 +1,5 @@
 package plu.blue.reversi.client.gui;
 
-import plu.blue.reversi.client.ReversiGame;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +21,11 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
 
     /** New Computer item */
     private JMenuItem newCPUItem;
+
+    // Menu items for saving and loading games
+    private JMenuItem saveLocalGameItem;
+    private JMenuItem loadLocalGameItem;
+    private JMenuItem loadOnlineGameItem;
 
     /**
      * Constructs the menu bar
@@ -77,6 +80,23 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
 
         menu.addSeparator();
 
+        saveLocalGameItem = new JMenuItem("Save Local Game");
+        saveLocalGameItem.getAccessibleContext().setAccessibleDescription("Save the current local game.");
+        saveLocalGameItem.addActionListener(this);
+        menu.add(saveLocalGameItem);
+
+        loadLocalGameItem = new JMenuItem("Load Local Game");
+        loadLocalGameItem.getAccessibleContext().setAccessibleDescription("Load a saved local game.");
+        loadLocalGameItem.addActionListener(this);
+        menu.add(loadLocalGameItem);
+
+        loadOnlineGameItem = new JMenuItem("Load Online Game");
+        loadOnlineGameItem.getAccessibleContext().setAccessibleDescription("Load a saved online game.");
+        loadOnlineGameItem.addActionListener(this);
+        menu.add(loadOnlineGameItem);
+
+        menu.addSeparator();
+
         quitMenuItem = new JMenuItem("Quit");
         quitMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_Q, ActionEvent.META_MASK));
@@ -98,6 +118,12 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         }
         if(e.getSource() == newCPUItem) {
             gui.newCPUGame();
+        }
+        if (e.getSource() == saveLocalGameItem) {
+            gui.saveLocalGame();
+        }
+        if (e.getSource() == loadLocalGameItem) {
+            gui.loadLocalGame();
         }
     }
 }

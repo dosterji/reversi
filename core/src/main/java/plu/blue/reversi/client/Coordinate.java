@@ -1,10 +1,12 @@
 package plu.blue.reversi.client;
 
+import java.io.Serializable;
+
 /**
  * Created by John on 3/13/2017.
  * A class for storing coordinate data.
  */
-public class Coordinate {
+public class Coordinate implements Serializable {
 
     /** The Row Location */
     private int rowLoc;

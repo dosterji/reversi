@@ -1,5 +1,6 @@
 package plu.blue.reversi.client;
 
+import java.io.Serializable;
 import plu.blue.reversi.client.gui.GameWindow;
 
 import javax.swing.*;
@@ -10,8 +11,7 @@ import java.util.ArrayList;
  * It contains all of the information about the board
  * and players.
  */
-public class ReversiGame
-{
+public class ReversiGame implements Serializable {
     /* The Players*/
     private Player p1;
     private Player p2;
@@ -128,6 +128,10 @@ public class ReversiGame
         return score;
     }
 
+    /**
+     * Makes a move for the CPU
+     * @return an arrayList of flips
+     */
     public ArrayList<Coordinate> makeCPUMove() {
         Coordinate m =((CPU) p2).move(this);
         ArrayList<Coordinate> a = new ArrayList<Coordinate>();
@@ -189,14 +193,15 @@ public class ReversiGame
 
             moves = getCurrentPlayerMoves();
             if (moves.isEmpty()) { //If Neither Player has any moves, game is over.
+                JOptionPane end = new JOptionPane();
                 int p1s = getP1().getScore();
                 int p2s = getP2().getScore();
                 if (p1s > p2s)
-                    JOptionPane.showMessageDialog(gui, "Black Player Wins");
+                    end.showMessageDialog(gui, "Black Player Wins");
                 else if (p1s < p2s)
-                    JOptionPane.showMessageDialog(gui, "White Player Wins");
+                    end.showMessageDialog(gui, "White Player Wins");
                 else
-                    JOptionPane.showMessageDialog(gui, "Tie Game");
+                    end.showMessageDialog(gui, "Tie Game");
             }
         }
     }

@@ -1,5 +1,6 @@
 package plu.blue.reversi.client;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  *  Holds methods for determining if a method is legal and
  *  for altering the board.
  */
-public class GameBoard {
+public class GameBoard implements Serializable {
 
     /*The board */
     private int[][] board;
