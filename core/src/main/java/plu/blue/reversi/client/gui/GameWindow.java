@@ -4,6 +4,7 @@ import plu.blue.reversi.client.CPU;
 import plu.blue.reversi.client.LocalStorage;
 import plu.blue.reversi.client.Player;
 import plu.blue.reversi.client.ReversiGame;
+import plu.blue.reversi.client.firebase.FirebaseConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +28,9 @@ public class GameWindow extends JFrame {
 
     // Local storage for the GameWindow instance
     private LocalStorage storage;
+
+    // Connection for accessing Firebase
+    private FirebaseConnection firebase;
 
     /**
      * Constructs a new main window for the game.
@@ -55,6 +59,7 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         storage = new LocalStorage();
+        firebase = new FirebaseConnection();
 
         // Add the menu bar
         this.setJMenuBar(new ReversiMenuBar(this));
