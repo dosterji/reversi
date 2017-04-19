@@ -357,6 +357,8 @@ public class BoardView extends JPanel implements MouseListener {
     public void animateComputerMove() {
         if (game.getCurrentPlayer() instanceof CPU) {
 
+            displayAvailableMoves(false);
+
             int cellRow, cellCol, row, col;
             Coordinate c;
             ArrayList<Coordinate> flips;
@@ -375,6 +377,7 @@ public class BoardView extends JPanel implements MouseListener {
             System.out.println("\n" + game.toString());
             panel.setScore(1, game.getP1().getScore());
             panel.setScore(2, game.getP2().getScore());
+            displayAvailableMoves(activateMovesAvailable);
             panel.setActivePlayer(1); //Set the active player back to 1 (black)
 
             game.isEndGame(gui);
