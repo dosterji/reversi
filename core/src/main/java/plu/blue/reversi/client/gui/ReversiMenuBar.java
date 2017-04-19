@@ -27,6 +27,10 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
     private JMenuItem loadLocalGameItem;
     private JMenuItem loadOnlineGameItem;
     private JMenuItem BoardColorSettingsItem;
+    private JMenuItem displayMovesItem;
+
+
+    private boolean activateDisplay = false;
 
     /**
      * Constructs the menu bar
@@ -64,6 +68,11 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
                 "Start a new game against the computer");
         newCPUItem.addActionListener(this);
         menu.add(newCPUItem);
+
+        displayMovesItem = new JMenuItem("Display Available Moves: ");
+        displayMovesItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
+        displayMovesItem.addActionListener(this);
+        menu.add(displayMovesItem);
 
         JMenuItem menuItem = new JMenuItem("New Online Game");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
@@ -124,6 +133,7 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         }
         if(e.getSource() == newCPUItem) {
             gui.newCPUGame();
+            gui.getBoardView().displayAvailableMoves(activateDisplay);
         }
         if (e.getSource() == saveLocalGameItem) {
             gui.saveLocalGame();
@@ -133,6 +143,17 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         }
         if (e.getSource() == BoardColorSettingsItem) {
             gui.BoardColorSettings();
+        } else if( e.getSource() == displayMovesItem) {
+            setMovesDisplay();
         }
+    }
+
+    private void setMovesDisplay() {
+        // Set a boolean that acts as a switch when the user
+        activateDisplay = !activateDisplay;
+        System.out.println("Activate Display: " + activateDisplay);
+        gui.getBoardView().setMovesDisplay(activateDisplay);
+        gui.getBoardView().displayAvailableMoves(activateDisplay);
+
     }
 }

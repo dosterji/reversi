@@ -248,7 +248,6 @@ public class BoardView extends JPanel implements MouseListener {
 
     public void setBoardColor(Color color) {
         this.setBackground(color);
-        repaint();
     }
 
     public Color getBoardColor() {
@@ -448,5 +447,6 @@ public class BoardView extends JPanel implements MouseListener {
                 boardState[coord.getRowLocation()][coord.getColLocation()].setColor(EMPTY);
             }
         }
+        repaint();
     }
 }

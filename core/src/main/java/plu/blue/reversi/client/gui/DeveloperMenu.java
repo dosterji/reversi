@@ -114,10 +114,10 @@ public class DeveloperMenu extends JMenu implements ActionListener {
 
     private void setMovesDisplay() {
         // Set a boolean that acts as a switch when the user
-        if(activateDisplay == false ) { activateDisplay = true; }
-        else activateDisplay = false;
+        activateDisplay = !activateDisplay;
         System.out.println("Activate Display: " + activateDisplay);
         gui.getBoardView().setMovesDisplay(activateDisplay);
+        gui.getBoardView().displayAvailableMoves(activateDisplay);
 
     }
 }

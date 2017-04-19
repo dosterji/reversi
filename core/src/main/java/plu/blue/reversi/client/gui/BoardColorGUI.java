@@ -47,7 +47,7 @@ public class BoardColorGUI extends JPanel{
      */
     private void JFrameSetup() {
         ColorSettingsWindow = new JFrame();
-        ColorSettingsWindow.setSize(500, 350);
+        ColorSettingsWindow.setSize(700, 250);
         ColorSettingsWindow.dispatchEvent(new WindowEvent(ColorSettingsWindow, WindowEvent.WINDOW_CLOSING));
         ColorSettingsWindow.setTitle("Color Settings");
 
@@ -100,8 +100,7 @@ public class BoardColorGUI extends JPanel{
         PlayerTwoColorPanel.add(PlayerTwoCustomColor);
 
         //Panel for customizing Board
-        BoardColorPanel = new JPanel(new BoxLayout(BoardColorPanel, BoxLayout.PAGE_AXIS));
-        BoardColorPanel.setLayout(new GridBagLayout());
+        BoardColorPanel = new JPanel();
         BoardColorPanel.setBackground(Color.WHITE);
         BoardColorPanel.setBorder(LineBorder.createBlackLineBorder());
         CustomizePanel.add(BoardColorPanel, BorderLayout.PAGE_END);
