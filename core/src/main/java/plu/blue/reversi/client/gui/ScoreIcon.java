@@ -48,4 +48,9 @@ public class ScoreIcon extends JPanel {
         Utilities.drawCenteredString(g2d, label, new Rectangle(0, 0, w, h));
     }
 
+    public void setChipColor(Color c) {
+        chipColor = c;
+        repaint();
+    }
+
 }

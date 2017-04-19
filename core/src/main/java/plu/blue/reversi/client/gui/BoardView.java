@@ -38,8 +38,9 @@ public class BoardView extends JPanel implements MouseListener {
     /** The gui */
     private GameWindow gui;
 
+
     /** Sets the state of activating available moves for a player.*/
-    private boolean activateDisplay;
+    private boolean activateMovesAvailable;
 
     /**
      * This is an internal class used to manage the animation of pieces flipping over.
@@ -196,12 +197,12 @@ public class BoardView extends JPanel implements MouseListener {
                 float h = height * (cellSize - 2.0f * pad);
 
                 if (cellColor == CellColor.BLACK)
-                    g.setColor(Color.black);
+                    g.setColor(game.getP1().getPieceColor());
                 else if(cellColor == CellColor.GRAY) {
                     g.setColor(Color.lightGray);
                 }
                 else
-                    g.setColor(Color.white);
+                    g.setColor(game.getP2().getPieceColor());
 
                 g.fillOval(
                         Math.round(x + pad),
@@ -243,6 +244,19 @@ public class BoardView extends JPanel implements MouseListener {
 
         fAnimator = null;
         this.addMouseListener(this);
+    }
+
+    public void setBoardColor(Color color) {
+        this.setBackground(color);
+        repaint();
+    }
+
+    public Color getBoardColor() {
+        return this.getBackground();
+    }
+
+    public PlayerInfoPanel getPlayerInfoPanel() {
+        return panel;
     }
 
     /**
@@ -295,7 +309,7 @@ public class BoardView extends JPanel implements MouseListener {
 
         int row, col = 0;
         Coordinate c;
-        displayMoves(false);
+        displayAvailableMoves(false);
         //Get it to animate
         ArrayList<Coordinate> flips= game.move(game.getCurrentPlayer(), cellRow, cellCol);
         //
@@ -308,7 +322,7 @@ public class BoardView extends JPanel implements MouseListener {
                     c = game.adjustCoordForFlipping(cellRow,cellCol,row,col);
                     animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, WHITE, 150);
                 }
-                displayMoves(activateDisplay);
+                displayAvailableMoves(activateMovesAvailable);
                 panel.setActivePlayer(1); //Set the active player back to 1 (black)
 
             } else {
@@ -319,7 +333,7 @@ public class BoardView extends JPanel implements MouseListener {
                     c = game.adjustCoordForFlipping(cellRow,cellCol,row,col);
                     animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, BLACK, 150);
                 }
-                displayMoves(activateDisplay);
+                displayAvailableMoves(activateMovesAvailable);
                 panel.setActivePlayer(2); //Set the active player back to 2 (white)
             }
             System.out.println("\n" + game.toString());
@@ -342,6 +356,7 @@ public class BoardView extends JPanel implements MouseListener {
 
     public void animateComputerMove() {
         if (game.getCurrentPlayer() instanceof CPU) {
+
             int cellRow, cellCol, row, col;
             Coordinate c;
             ArrayList<Coordinate> flips;
@@ -406,10 +421,10 @@ public class BoardView extends JPanel implements MouseListener {
     }
 
     public void setMovesDisplay(boolean activateState) {
-        activateDisplay = activateState;
+        activateMovesAvailable = activateState;
     }
 
-    public void displayMoves(boolean activateDisplay) {
+    public void displayAvailableMoves(boolean activateDisplay) {
 
         int color = game.getCurrentPlayerColor();
         ArrayList<Coordinate> playersMoves = game.getBoard().getLegalMoves(color);

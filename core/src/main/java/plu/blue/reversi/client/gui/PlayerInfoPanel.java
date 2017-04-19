@@ -12,6 +12,8 @@ public class PlayerInfoPanel extends JPanel {
     private JLabel player1NameLabel, player2NameLabel;
     private ScoreIcon player1Score, player2Score;
     private Color activeBackgroundColor = new Color(180, 250, 180);
+    private Color Player1Color = Color.BLACK;
+    private Color Player2Color = Color.WHITE;
 
     public PlayerInfoPanel() {
 
@@ -23,8 +25,8 @@ public class PlayerInfoPanel extends JPanel {
                 new Color(250,200,100));
 
         this.setLayout(new BorderLayout());
-        player2Score = new ScoreIcon(Color.white, Color.black);
-        player1Score = new ScoreIcon(Color.black, Color.white);
+        player2Score = new ScoreIcon(Player2Color, Color.LIGHT_GRAY);
+        player1Score = new ScoreIcon(Player1Color, Color.LIGHT_GRAY);
 
         player1NameLabel = new JLabel();
         player2NameLabel = new JLabel();
@@ -41,6 +43,16 @@ public class PlayerInfoPanel extends JPanel {
 
         this.add(player1Panel, BorderLayout.WEST);
         this.add(player2Panel, BorderLayout.EAST);
+    }
+
+    public void setPlayer1Color(Color c) {
+        player1Score.setChipColor(c);
+        repaint();
+    }
+
+    public void setPlayer2Color(Color c) {
+        player2Score.setChipColor(c);
+        repaint();
     }
 
     public void setActivePlayer( int player ){

@@ -26,6 +26,7 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
     private JMenuItem saveLocalGameItem;
     private JMenuItem loadLocalGameItem;
     private JMenuItem loadOnlineGameItem;
+    private JMenuItem BoardColorSettingsItem;
 
     /**
      * Constructs the menu bar
@@ -105,6 +106,11 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         quitMenuItem.addActionListener(this);
         menu.add(quitMenuItem);
 
+        BoardColorSettingsItem = new JMenuItem("Board Color Settings");
+        BoardColorSettingsItem.setAccelerator((KeyStroke.getKeyStroke( KeyEvent.VK_C, ActionEvent.META_MASK)));
+        BoardColorSettingsItem.addActionListener(this);
+        menu.add(BoardColorSettingsItem);
+
         return menu;
     }
 
@@ -124,6 +130,9 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         }
         if (e.getSource() == loadLocalGameItem) {
             gui.loadLocalGame();
+        }
+        if (e.getSource() == BoardColorSettingsItem) {
+            gui.BoardColorSettings();
         }
     }
 }

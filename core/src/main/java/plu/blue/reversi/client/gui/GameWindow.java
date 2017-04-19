@@ -56,7 +56,8 @@ public class GameWindow extends JFrame {
      * GUI setup that is common for new games and loaded games
      */
     private void init() {
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        //setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //<--Is this what we want?
 
         storage = new LocalStorage();
         firebase = new FirebaseConnection("serviceAccountCredentials.json");
@@ -152,4 +153,7 @@ public class GameWindow extends JFrame {
         new GameWindow(savedGame, saveName);
     }
 
+    public void BoardColorSettings() {
+        new BoardColorGUI(game, boardView);
+    }
 }

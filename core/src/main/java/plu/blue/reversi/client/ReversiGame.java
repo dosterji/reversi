@@ -1,9 +1,9 @@
 package plu.blue.reversi.client;
 
-import java.io.Serializable;
 import plu.blue.reversi.client.gui.GameWindow;
 
 import javax.swing.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
