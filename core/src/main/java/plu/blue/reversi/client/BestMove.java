@@ -1,5 +1,7 @@
 package plu.blue.reversi.client;
 
+import java.util.ArrayList;
+
 /**
  * Find the Best Move when given an ArrayList of Coordinates
  * It does this based upon the formula:
@@ -68,12 +70,12 @@ public class BestMove {
      * This is basically just a constructor.  It sets the field "best"
      * to the coordinate for the best value for the current Player.
     */
-    /*
+
     private double alpha = 1.0;
     private double beta = -1.0;
     private Coordinate best;
     private double val;
-    /*
+
     public BestMove(ReversiGame g, ArrayList<Coordinate> possibleMoves) {
         double playerColor = g.getCurrentPlayerColor();
         Node n, target;
@@ -93,13 +95,13 @@ public class BestMove {
         best = target.getCoord();
         val = target.getValue();
     }
-    */
+
     /**
      * Some Getters
      * @return the fields
      */
-    /*
+
     public Coordinate getBest() {return best;}
     public double getVal() {return val;}
-    */
+
 } //End Class
