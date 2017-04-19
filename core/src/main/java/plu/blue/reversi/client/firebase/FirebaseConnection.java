@@ -12,9 +12,9 @@ public class FirebaseConnection {
 
     private final FirebaseDatabase database;
 
-    public FirebaseConnection() {
+    public FirebaseConnection(String credentialsFile) {
         try {
-            FileInputStream serviceAccount = new FileInputStream("../serviceAccountCredentials.json");
+            FileInputStream serviceAccount = new FileInputStream(credentialsFile);
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredential(FirebaseCredentials.fromCertificate(serviceAccount))

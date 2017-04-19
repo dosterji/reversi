@@ -59,7 +59,7 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         storage = new LocalStorage();
-        firebase = new FirebaseConnection();
+        firebase = new FirebaseConnection("serviceAccountCredentials.json");
 
         // Add the menu bar
         this.setJMenuBar(new ReversiMenuBar(this));
@@ -151,4 +151,5 @@ public class GameWindow extends JFrame {
         ReversiGame savedGame = storage.getSavedGame(saveName);
         new GameWindow(savedGame, saveName);
     }
+
 }

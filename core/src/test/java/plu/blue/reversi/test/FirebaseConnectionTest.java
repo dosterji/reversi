@@ -15,7 +15,7 @@ public class FirebaseConnectionTest {
 
     @BeforeClass
     public static void init() {
-        connection = new FirebaseConnection();
+        connection = new FirebaseConnection("../serviceAccountCredentials.json");
     }
 
     @Test
