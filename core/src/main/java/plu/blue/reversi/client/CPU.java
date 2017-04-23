@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public class CPU extends Player {
     private int diff; // The CPU difficulty TODO: pass this value to the constructor to allow deeper difficulties
     private ReversiGame game, copyGame; //a copy of the game as it is currently being run..
-    public CPU() {
+    public CPU(int difficulty) {
         super("CPU", 1);
-        diff= 4;
+        diff= difficulty;
         game = null;
     }//End constructor
 
@@ -33,7 +33,7 @@ public class CPU extends Player {
             //
             BestMove move = new BestMove(a.get(i), game); //creates a node from the Coordinate, places the pieces down on the board
             //System.out.println("VALUE OF NODE : " + i + ": " + move.getValue());
-            values.add(recursion1(copyGame, move, 0, 1, -1));
+            values.add(recursion1(copyGame, move, diff, 1, -1));
             System.out.print("Coordinate: " + a.get(i).toString());
             System.out.println(" value: " + values.get(i));
         }
@@ -76,7 +76,7 @@ public class CPU extends Player {
         }
     }*/
 
-    public double recursion1(ReversiGame copy, BestMove node, int depth,double beta, double alpha){
+    public double recursion1(ReversiGame copy, BestMove node, int depth, double beta, double alpha){
         if(depth == 8){
             System.out.println("Returning value of: " + node.getValue() + " AT DEPTH 4");
             return node.getValue();

@@ -125,7 +125,7 @@ public class GameWindow extends JFrame {
         game.newGame();
         historyPanel.newGame();
         boardView.newGame();
-        game.setP2(new CPU());
+        game.setP2(new CPU(8));
         playerInfoPanel.setPlayerName(1, game.getP1().getName());
         playerInfoPanel.setPlayerName(2, game.getP2().getName());
     }

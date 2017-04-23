@@ -33,6 +33,28 @@ public class Coordinate implements Serializable {
     }
 
     /**
+     * An equals method that tells whether two coordinates are equal
+     * @param other the other coordinate
+     * @return true or false
+     */
+    public boolean equals(Coordinate other) {
+        if( this.toString().equals(other.toString()))
+            return true;
+        else
+            return false;
+    }
+    /**
+     * Tells whether this coordinate is a corner
+     * @return
+     */
+    public boolean isCorner() {
+        if(this.equals(new Coordinate(0,0)) || this.equals(new Coordinate(0,7))
+                || this.equals(new Coordinate(7,0)) || this.equals(new Coordinate(7,7)))
+            return true;
+        else
+            return false;
+    }
+    /**
      * Creates a string representation of this object in the form:
      *                  "[rowLoc, colLoc]"
      * @return The string representation

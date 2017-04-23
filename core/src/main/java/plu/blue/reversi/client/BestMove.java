@@ -21,27 +21,6 @@ public class BestMove {
     ////////////////////////
     // Private Inner Class//
     ////////////////////////
-    private double value;
-    private Coordinate coord;
-
-
-    public BestMove (Coordinate c , ReversiGame game) {
-        //private Coordinate coord;
-        coord = c;
-
-        game.move(game.getCurrentPlayer(), c.getRowLocation(), c.getColLocation());
-
-        double top = game.getP2().getScore() - game.getP1().getScore();
-        double bot = game.getP2().getScore() + game.getP1().getScore();
-
-        value = top / bot;
-        System.out.println("VALUE: " + value);
-    }
-    public double getValue() {return value;}
-    public Coordinate getCoord() {return coord;}
-
-
-
     /**
      * This class finds the "Value" for each move by making the
      * move on a copy of the ReversiGame and then calculating value
@@ -52,11 +31,18 @@ public class BestMove {
 
         public Node(Coordinate c, ReversiGame game) {
             coord = c;
-            game.move(game.getCurrentPlayer(), c.getRowLocation(),c.getColLocation());
+            int color = game.getCurrentPlayerColor();
+            if( c.isCorner()) {
+                System.out.println("Corner");
+                value = color;
+            }
+            else {
+                game.move(game.getCurrentPlayer(), c.getRowLocation(), c.getColLocation());
 
-            double top = game.getP2().getScore() - game.getP1().getScore();
-            double bot = game.getP2().getScore() + game.getP1().getScore();
-            value = top/bot;
+                double top = game.getP2().getScore() - game.getP1().getScore();
+                double bot = game.getP2().getScore() + game.getP1().getScore();
+                value = top / bot;
+            }
         }
         public double getValue() {return value;}
         public Coordinate getCoord() {return coord;}
@@ -65,17 +51,14 @@ public class BestMove {
     /////////////////////////
     //   Best Move Class   //
     /////////////////////////
-
-    /**
-     * This is basically just a constructor.  It sets the field "best"
-     * to the coordinate for the best value for the current Player.
-    */
-
     private double alpha = 1.0;
     private double beta = -1.0;
     private Coordinate best;
     private double val;
-
+    /**
+     * This is basically just a constructor.  It sets the field "best"
+     * to the coordinate for the best value for the current Player.
+     */
     public BestMove(ReversiGame g, ArrayList<Coordinate> possibleMoves) {
         double playerColor = g.getCurrentPlayerColor();
         Node n, target;
@@ -97,11 +80,20 @@ public class BestMove {
     }
 
     /**
-     * Some Getters
-     * @return the fields
+     * This constructor basically allows a user to access the node
+     * class for a single coordinate
+     * @param c The Coordinate
+     * @param game
      */
-
+    public BestMove (Coordinate c , ReversiGame game) {
+        Node n = new Node(c, game);
+        val = n.getValue();
+        best = n.getCoord();
+    }
+    ///////////
+    //GETTERS//
+    ///////////
     public Coordinate getBest() {return best;}
-    public double getVal() {return val;}
+    public double getValue() {return val;}
 
 } //End Class

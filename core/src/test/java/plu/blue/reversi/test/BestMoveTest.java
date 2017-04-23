@@ -30,30 +30,30 @@ public class BestMoveTest {
         BestMove m = new BestMove(game, game.getCurrentPlayerMoves());
         Assert.assertEquals("E3", m.getBest().toString());
         Assert.assertEquals(basic.toString(), game.toString());
-        Assert.assertEquals(-0.6, m.getVal(), 0);
+        Assert.assertEquals(-0.6, m.getValue(), 0);
 
         game.move(game.getCurrentPlayer(), m.getBest().getRowLocation(), m.getBest().getColLocation());
 
         m = new BestMove(game, game.getCurrentPlayerMoves());
         Assert.assertEquals("D3", m.getBest().toString());
-        //Assert.assertEquals(0, m.getVal(), 0);
+        //Assert.assertEquals(0, m.getValue(), 0);
 
         game.move(game.getCurrentPlayer(), m.getBest().getRowLocation(), m.getBest().getColLocation());
 
         m = new BestMove(game, game.getCurrentPlayerMoves());
         Assert.assertEquals("C3", m.getBest().toString());
-        Assert.assertEquals(-0.7142, m.getVal(), 0.0001);
+        Assert.assertEquals(-0.7142, m.getValue(), 0.0001);
 
         game.move(game.getCurrentPlayer(), m.getBest().getRowLocation(), m.getBest().getColLocation());
 
         m = new BestMove(game, game.getCurrentPlayerMoves());
         Assert.assertEquals("D2", m.getBest().toString());
-        //Assert.assertEquals(0, m.getVal(), 0);
+        //Assert.assertEquals(0, m.getValue(), 0);
 
         game.move(game.getCurrentPlayer(), m.getBest().getRowLocation(), m.getBest().getColLocation());
 
         m = new BestMove(game, game.getCurrentPlayerMoves());
         Assert.assertEquals("C5", m.getBest().toString());
-        Assert.assertEquals(-0.5555, m.getVal(), 0.0001);
+        Assert.assertEquals(-0.5555, m.getValue(), 0.0001);
     }
 }
