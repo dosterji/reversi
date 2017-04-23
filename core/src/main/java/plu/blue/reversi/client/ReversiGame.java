@@ -12,6 +12,10 @@ import java.util.ArrayList;
  * and players.
  */
 public class ReversiGame implements Serializable {
+
+    // For serializing purposes
+    private static final long serialVersionUID = 39006L;
+
     /* The Players*/
     private Player p1;
     private Player p2;

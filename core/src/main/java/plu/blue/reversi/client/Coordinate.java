@@ -8,6 +8,9 @@ import java.io.Serializable;
  */
 public class Coordinate implements Serializable {
 
+    // For serializing purposes
+    private static final long serialVersionUID = 39001L;
+
     /** The Row Location */
     private int rowLoc;
     /** The Column Location */

@@ -11,6 +11,9 @@ import java.util.ArrayList;
  */
 public class GameBoard implements Serializable {
 
+    // For serializing purposes
+    private static final long serialVersionUID = 39002L;
+
     /*The board */
     private int[][] board;
     /*To Help Flip */

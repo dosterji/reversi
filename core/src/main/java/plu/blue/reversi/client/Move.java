@@ -7,6 +7,10 @@ import java.io.Serializable;
  * Created by John on 3/17/2017.
  */
 public class Move implements Serializable {
+
+    // For serializing purposes
+    private static final long serialVersionUID = 39004L;
+
     /*The Coordinate at which the move was made */
     private Coordinate cell;
     /* The player who made the move */

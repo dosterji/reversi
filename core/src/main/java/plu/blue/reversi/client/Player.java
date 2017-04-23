@@ -8,6 +8,10 @@ import java.io.Serializable;
  * Created by John on 3/13/2017
  */
 public class Player implements Serializable {
+
+    // For serializing purposes
+    private static final long serialVersionUID = 39005L;
+
     //fields
     private String name;
     private int score;

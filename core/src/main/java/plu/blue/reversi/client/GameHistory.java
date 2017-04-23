@@ -10,6 +10,9 @@ import java.util.ArrayList;
  */
 public class GameHistory implements Serializable {
 
+    // For serializing purposes
+    private static final long serialVersionUID = 39003L;
+
     // Field declarations
     private ArrayList<Move> moveHistory;
 
