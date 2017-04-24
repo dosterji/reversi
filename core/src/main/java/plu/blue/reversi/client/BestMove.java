@@ -34,7 +34,7 @@ public class BestMove {
             int color = game.getCurrentPlayerColor();
             if( c.isCorner()) {
                 System.out.println("Corner");
-                value = color;
+                value = assignCornerValue(color);
             }
             else {
                 game.move(game.getCurrentPlayer(), c.getRowLocation(), c.getColLocation());
@@ -95,5 +95,17 @@ public class BestMove {
     ///////////
     public Coordinate getBest() {return best;}
     public double getValue() {return val;}
+
+    /**
+     * assigns a value to corner values
+     * @param playerColor the player making the move
+     * @return the value
+     */
+    public double assignCornerValue(int playerColor) {
+        if(playerColor == 1)
+            return 0.999;
+        else
+            return -0.999;
+    }
 
 } //End Class
