@@ -121,11 +121,13 @@ public class GameWindow extends JFrame {
         playerInfoPanel.setPlayerName(1, game.getP1().getName());
         playerInfoPanel.setPlayerName(2, game.getP2().getName());
     }
-    public void newCPUGame() {
+    public void newCPUGame(int difficulty) {
+        int depth = difficulty - 8;
+        System.out.println("CPU Search Depth: " + depth);
         game.newGame();
         historyPanel.newGame();
         boardView.newGame();
-        game.setP2(new CPU(8));
+        game.setP2(new CPU(difficulty));
         playerInfoPanel.setPlayerName(1, game.getP1().getName());
         playerInfoPanel.setPlayerName(2, game.getP2().getName());
     }

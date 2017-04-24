@@ -201,9 +201,9 @@ public class ReversiGame implements Serializable {
                 int p1s = getP1().getScore();
                 int p2s = getP2().getScore();
                 if (p1s > p2s)
-                    end.showMessageDialog(gui, "Black Player Wins");
+                    end.showMessageDialog(gui, "PLAYER 1 Wins");
                 else if (p1s < p2s)
-                    end.showMessageDialog(gui, "White Player Wins");
+                    end.showMessageDialog(gui, "PLAYER 2 Wins");
                 else
                     end.showMessageDialog(gui, "Tie Game");
             }

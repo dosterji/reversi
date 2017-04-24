@@ -132,7 +132,23 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
             gui.newGame();
         }
         if(e.getSource() == newCPUItem) {
-            gui.newCPUGame();
+            int diff;
+            Object[] possibleDiffs = { "1", "2", "3", "4", "5"};
+            Object selectedDiff = JOptionPane.showInputDialog(null,
+                    "Select CPU Difficulty", "Input",
+                    JOptionPane.QUESTION_MESSAGE, null,
+                    possibleDiffs, possibleDiffs[0]);
+            if(selectedDiff.equals("5"))
+                diff = 0;
+            else if(selectedDiff.equals("4"))
+                diff = 2;
+            else if(selectedDiff.equals("3"))
+                diff = 4;
+            else if(selectedDiff.equals("2"))
+                diff = 6;
+            else
+                diff = 8;
+            gui.newCPUGame(diff);
             gui.getBoardView().displayAvailableMoves(activateDisplay);
         }
         if (e.getSource() == saveLocalGameItem) {
