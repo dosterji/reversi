@@ -23,15 +23,16 @@ public class CPU extends Player {
      */
     public Coordinate move(ReversiGame other) {
         game = new ReversiGame(other);
-        copyGame = game;
         ArrayList<Coordinate> a = game.getCurrentPlayerMoves();
         ArrayList<Double> values = new ArrayList<Double>();
 
 
-
+        //Loop for getting the best value for each node
         for(int i = 0; i <a.size(); i++) {
             //
-            BestMove move = new BestMove(a.get(i), game); //creates a node from the Coordinate, places the pieces down on the board
+            copyGame = new ReversiGame(other);
+            BestMove move = new BestMove(a.get(i), copyGame); //creates a node from the Coordinate, places the pieces down on the board
+            copyGame.move(copyGame.getCurrentPlayer(), move.getBest().getRowLocation(), move.getBest().getColLocation());
             //System.out.println("VALUE OF NODE : " + i + ": " + move.getValue());
             values.add(recursion1(copyGame, move, diff, 1, -1));
             System.out.print("Coordinate: " + a.get(i).toString());
@@ -40,50 +41,41 @@ public class CPU extends Player {
 
         Coordinate max = a.get(0);
         double maxV = values.get(0);
+        System.out.printf("ARRAY VALS(%d): ", values.size());
+        System.out.printf("%f, ", values.get(0));
+
+        //loop for determining to best value for the CPU move
         for(int i = 1; i < values.size(); i++){
             if(values.get(i) > maxV){
                 max = a.get(i);
                 maxV = values.get(i);
             }
+            System.out.printf("%f, ", values.get(i));
+        }
+        System.out.printf("\nPOSS MOVES(%d): ", a.size());
+        System.out.printf("%s", a.get(0).toString());
+
+        //Just a print loop
+        for(int i = 1; i < a.size(); i++) {
+           System.out.printf(" %s", a.get(i).toString());
         }
 
-        System.out.println("The best move to make is " + max.getColLocation() +" " + max.getRowLocation() + ": " + maxV);
+        System.out.println("\nThe best move to make is " + max.getColLocation() +" " + max.getRowLocation() + ": " + maxV);
         return max;
     }
-    /*
-    public double recursion(ReversiGame copy, Coordinate c, int depth,double beta, double alpha, double val){
-        if(depth == 0) {
 
-            return val;
-        }
-        else{
-            copy.move(copy.getCurrentPlayer(),c.getRowLocation(),c.getColLocation()); //makes the move on the board
-            ArrayList<Coordinate> moves = copy.getCurrentPlayerMoves(); //finds the possible moves of the new move of the opponent (for black aka human)
-            if(copy.getCurrentPlayerColor() == 1) { //if the current player is white aka the CPU
-                double best = -1;
-                for (int i = 0; i < moves.size(); i++) { //for loop to look at all possible moves
-                    best = max(best, recursion(copy, moves(i), depth-1, alpha, ))
-                    if (beta < alpha);
-                    //prune
-
-
-                }
-            }
-            BestMove best = new BestMove(copy, moves); //finds the best new move
-            Coordinate cord = new Coordinate((best.getBest().getRowLocation()), best.getBest().getColLocation()); //converts bestMove to coordinate
-            val = best.getVal(); //gives the val of current move
-            return recursion(copy, cord, depth-1, val);
-        }
-    }*/
-
+    /**
+     * The recursive method
+     */
     public double recursion1(ReversiGame copy, BestMove node, int depth, double beta, double alpha){
-        if(depth == 8){
-            System.out.println("Returning value of: " + node.getValue() + " AT DEPTH 4");
+        if(depth == 8 || copy.getCurrentPlayerMoves().size() == 0 || node.getBest().isCorner()){
+            System.out.println("Returning value of: " + node.getValue() + " AT DEPTH 8");
             return node.getValue();
         }
-        ArrayList<Coordinate> list = copy.getCurrentPlayerMoves();
 
-        if(copy.getCurrentPlayerColor() == 1){ //black aka HUMAN
+        ArrayList<Coordinate> list = copy.getCurrentPlayerMoves();
+        if(copy.getCurrentPlayerColor() == -1){ //black aka HUMAN
+            System.out.println("HUMAN PLAYER");
             double best = 1;
             for(int i = 0; i < list.size(); i++){
                 copy.move(copy.getCurrentPlayer(), list.get(i).getRowLocation(), list.get(i).getColLocation());
@@ -92,29 +84,32 @@ public class CPU extends Player {
                 beta = min(beta, best);
                 if(beta <= alpha){
                     System.out.println(beta + " < " + alpha);
+                    System.out.println("PRUNE");
                     break;
                 }
             }
-            System.out.println("RETURNING BEST : " + best);
+            System.out.println("RETURNING BEST BLACK: " + best);
             return best;
         }
-        if(copy.getCurrentPlayerColor() == -1){ //white aka CPU
+        else{ //white aka CPU
+            System.out.println("CPU PLAYER");
             double best = -1;
             for(int i = 0; i < list.size(); i++){
+                //TODO:  I think this move should be commentd out because the BestMove class makes a move
                 copy.move(copy.getCurrentPlayer(), list.get(i).getRowLocation(), list.get(i).getColLocation());
                 System.out.println("Passing ALPHA " + alpha  + "BETA : " + beta);
                 best = max(best, recursion1(copy, new BestMove(list.get(i), copy),depth+1,beta, alpha));
-                alpha = max(beta, best);
+                //TODO: I think max should take alpha as an arguement
+                alpha = max(alpha, best);
                 if(beta <= alpha){
                     System.out.println(beta + " < " + alpha);
                     System.out.println("PRUNE");
                     break;
                 }
             }
-            System.out.println("RETURNING BEST : " + best);
+            System.out.println("RETURNING BEST WHITE : " + best);
             return best;
         }
-        return 0;
     }
 
     private double max(double a, double b){
@@ -130,6 +125,4 @@ public class CPU extends Player {
         else
             return b;
     }
-
-
 }

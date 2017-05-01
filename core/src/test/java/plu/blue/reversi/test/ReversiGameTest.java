@@ -40,6 +40,9 @@ public class ReversiGameTest {
         basic.move(basic.getP1(),2,4);
         Assert.assertEquals(basic.toString(), game2.toString());
 
+        game2 = new ReversiGame(game);
+        Assert.assertEquals(game2.toString(), game.toString());
+        Assert.assertNotEquals(game2.toString(), basic.toString());
     }
     @Test
     public void adjustCoordForFlipping() throws Exception {

@@ -190,7 +190,6 @@ public class ReversiGame implements Serializable {
     public void isEndGame(GameWindow gui) {
         //Determine if the new player has any moves
         ArrayList<Coordinate> moves = getCurrentPlayerMoves();
-        System.out.println("Number of Possible Next Moves: " + moves.size());
         if(moves.isEmpty()) {
             int p = changeCurrentPlayer();
             gui.getPlayerInfoPanel().setActivePlayer(p);

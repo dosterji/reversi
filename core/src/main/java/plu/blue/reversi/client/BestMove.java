@@ -33,8 +33,8 @@ public class BestMove {
             coord = c;
             int color = game.getCurrentPlayerColor();
             if( c.isCorner()) {
-                System.out.println("Corner");
                 value = assignCornerValue(color);
+                //System.out.println("Corner: " + value);
             }
             else {
                 game.move(game.getCurrentPlayer(), c.getRowLocation(), c.getColLocation());
@@ -86,7 +86,8 @@ public class BestMove {
      * @param game
      */
     public BestMove (Coordinate c , ReversiGame game) {
-        Node n = new Node(c, game);
+        ReversiGame copy = new ReversiGame(game);
+        Node n = new Node(c, copy);
         val = n.getValue();
         best = n.getCoord();
     }

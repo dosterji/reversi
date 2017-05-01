@@ -431,10 +431,10 @@ public class BoardView extends JPanel implements MouseListener {
         int color = game.getCurrentPlayerColor();
         ArrayList<Coordinate> playersMoves = game.getBoard().getLegalMoves(color);
         if(activateDisplay) {
-            System.out.println("Display Activated...");
+            //System.out.println("Display Activated...");
             for(Coordinate coord : playersMoves) {
-                System.out.println("Entered Coordinates: (" + coord.getColLocation()
-                        + "," + coord.getRowLocation() + ")" );
+                //System.out.println("Entered Coordinates: (" + coord.getColLocation()
+                       // + "," + coord.getRowLocation() + ")" );
                 boardState[coord.getRowLocation()][coord.getColLocation()].setColor(GRAY);
             }
         }
@@ -442,8 +442,8 @@ public class BoardView extends JPanel implements MouseListener {
             //Else don't display any available options.
             //Display As Empty
             /**/for(Coordinate coord : playersMoves) {
-                System.out.println("Entered Coordinates: (" + coord.getColLocation()
-                        + "," + coord.getRowLocation() + ")" );
+               // System.out.println("Entered Coordinates: (" + coord.getColLocation()
+                 //       + "," + coord.getRowLocation() + ")" );
                 boardState[coord.getRowLocation()][coord.getColLocation()].setColor(EMPTY);
             }
         }
