@@ -1,6 +1,7 @@
-package plu.blue.reversi.client.model;
+package plu.blue.reversi.client;
 
-import plu.blue.reversi.client.helper.Coordinate;
+import plu.blue.reversi.client.Coordinate;
+import plu.blue.reversi.client.model.Player;
 
 import java.io.Serializable;
 

@@ -1,6 +1,6 @@
-package plu.blue.reversi.client.helper;
+package plu.blue.reversi.client;
 
-import plu.blue.reversi.client.helper.Coordinate;
+import plu.blue.reversi.client.Coordinate;
 import plu.blue.reversi.client.model.ReversiGame;
 
 import java.util.ArrayList;
