@@ -3,12 +3,10 @@ package plu.blue.reversi.test;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import plu.blue.reversi.client.Coordinate;
-import plu.blue.reversi.client.ReversiGame;
+import plu.blue.reversi.client.helper.Coordinate;
+import plu.blue.reversi.client.model.ReversiGame;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 
 /**
  * Test a few methods in the Reversi Game class

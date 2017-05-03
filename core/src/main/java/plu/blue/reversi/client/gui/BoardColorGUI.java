@@ -1,6 +1,6 @@
 package plu.blue.reversi.client.gui;
 
-import plu.blue.reversi.client.ReversiGame;
+import plu.blue.reversi.client.model.ReversiGame;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

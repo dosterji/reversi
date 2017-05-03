@@ -1,5 +1,6 @@
-package plu.blue.reversi.client;
+package plu.blue.reversi.client.model;
 
+import plu.blue.reversi.client.helper.Coordinate;
 import plu.blue.reversi.client.gui.GameWindow;
 
 import javax.swing.*;
@@ -87,7 +88,7 @@ public class ReversiGame implements Serializable {
      * @return an arrayList containing all of the Coordinates to flip tiles from starting
      *          at rowLocation, colLocation
      */
-    public ArrayList<Coordinate> move( Player p, int rowLocation, int colLocation) {
+    public ArrayList<Coordinate> move(Player p, int rowLocation, int colLocation) {
         int playerColor = p.getColor();
         ArrayList<Coordinate> flips = board.isLegalMove(playerColor, rowLocation, colLocation);
 
@@ -148,7 +149,7 @@ public class ReversiGame implements Serializable {
     }
 
     /**
-     * Helper method to avoid cluster in BoardViewClass.
+     * helper method to avoid cluster in BoardViewClass.
      * It helps with the smoother flip animation.
      * @return A coordinate adjusted
      */

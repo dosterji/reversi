@@ -2,7 +2,10 @@ package plu.blue.reversi.client.gui;
 
 import org.jdesktop.core.animation.timing.Animator;
 import org.jdesktop.core.animation.timing.TimingTargetAdapter;
-import plu.blue.reversi.client.*;
+import plu.blue.reversi.client.helper.Coordinate;
+import plu.blue.reversi.client.model.CPU;
+import plu.blue.reversi.client.model.Move;
+import plu.blue.reversi.client.model.ReversiGame;
 
 import javax.swing.*;
 import java.awt.*;

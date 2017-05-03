@@ -1,4 +1,7 @@
-package plu.blue.reversi.client;
+package plu.blue.reversi.client.helper;
+
+import plu.blue.reversi.client.helper.Coordinate;
+import plu.blue.reversi.client.model.ReversiGame;
 
 import java.util.ArrayList;
 
@@ -86,8 +89,7 @@ public class BestMove {
      * @param game
      */
     public BestMove (Coordinate c , ReversiGame game) {
-        ReversiGame copy = new ReversiGame(game);
-        Node n = new Node(c, copy);
+        Node n = new Node(c, new ReversiGame(game));
         val = n.getValue();
         best = n.getCoord();
     }

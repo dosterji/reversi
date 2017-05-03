@@ -1,6 +1,6 @@
 package plu.blue.reversi.client.gui;
 
-import plu.blue.reversi.client.GameHistory;
+import plu.blue.reversi.client.model.GameHistory;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
