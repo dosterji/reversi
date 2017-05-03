@@ -1,4 +1,4 @@
-package plu.blue.reversi.client;
+package plu.blue.reversi.client.helper;
 
 import java.io.Serializable;
 

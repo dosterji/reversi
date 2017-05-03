@@ -1,4 +1,7 @@
-package plu.blue.reversi.client;
+package plu.blue.reversi.client.model;
+import plu.blue.reversi.client.helper.BestMove;
+import plu.blue.reversi.client.helper.Coordinate;
+
 import java.util.ArrayList;
 /**
  * This class extends the Player class and indicates that the player is infact a CPU.
@@ -84,7 +87,7 @@ public class CPU extends Player {
                 beta = min(beta, best);
                 if(beta <= alpha){
                     System.out.println(beta + " < " + alpha);
-                    System.out.println("PRUNE");
+                    //System.out.println("PRUNE");
                     break;
                 }
             }
@@ -95,11 +98,9 @@ public class CPU extends Player {
             System.out.println("CPU PLAYER");
             double best = -1;
             for(int i = 0; i < list.size(); i++){
-                //TODO:  I think this move should be commentd out because the BestMove class makes a move
                 copy.move(copy.getCurrentPlayer(), list.get(i).getRowLocation(), list.get(i).getColLocation());
                 System.out.println("Passing ALPHA " + alpha  + "BETA : " + beta);
                 best = max(best, recursion1(copy, new BestMove(list.get(i), copy),depth+1,beta, alpha));
-                //TODO: I think max should take alpha as an arguement
                 alpha = max(alpha, best);
                 if(beta <= alpha){
                     System.out.println(beta + " < " + alpha);

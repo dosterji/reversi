@@ -1,4 +1,6 @@
-package plu.blue.reversi.client;
+package plu.blue.reversi.client.model;
+
+import plu.blue.reversi.client.helper.Coordinate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,7 +70,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Private Helper Method.
+     * Private helper Method.
      * Checks the Columns for validity.
      * @param playerColor Black: -1, White: 1
      * @param row The row the player is placing a tile in
@@ -102,7 +104,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Private Helper Method.
+     * Private helper Method.
      * Checks the rows for validity.
      * @param playerColor Black  -1, White: 1
      * @param row The row the player is placing a tile in

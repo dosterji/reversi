@@ -3,10 +3,10 @@ package plu.blue.reversi.test;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import plu.blue.reversi.client.Coordinate;
-import plu.blue.reversi.client.GameHistory;
-import plu.blue.reversi.client.Move;
-import plu.blue.reversi.client.Player;
+import plu.blue.reversi.client.helper.Coordinate;
+import plu.blue.reversi.client.model.GameHistory;
+import plu.blue.reversi.client.model.Move;
+import plu.blue.reversi.client.model.Player;
 
 /**
  * Class that tests GameHistory methods

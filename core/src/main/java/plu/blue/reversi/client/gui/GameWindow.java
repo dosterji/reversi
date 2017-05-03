@@ -1,9 +1,9 @@
 package plu.blue.reversi.client.gui;
 
-import plu.blue.reversi.client.CPU;
-import plu.blue.reversi.client.LocalStorage;
-import plu.blue.reversi.client.Player;
-import plu.blue.reversi.client.ReversiGame;
+import plu.blue.reversi.client.model.CPU;
+import plu.blue.reversi.client.model.LocalStorage;
+import plu.blue.reversi.client.model.Player;
+import plu.blue.reversi.client.model.ReversiGame;
 import plu.blue.reversi.client.firebase.FirebaseConnection;
 
 import javax.swing.*;
