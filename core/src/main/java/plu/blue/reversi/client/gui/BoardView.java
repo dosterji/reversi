@@ -41,6 +41,7 @@ public class BoardView extends JPanel implements MouseListener {
 
     /** Sets the state of activating available moves for a player.*/
     private boolean activateMovesAvailable;
+    private boolean activateBestAvailable;
 
     /**
      * This is an internal class used to manage the animation of pieces flipping over.
@@ -166,7 +167,7 @@ public class BoardView extends JPanel implements MouseListener {
     }
 
     public enum CellColor {
-        WHITE, BLACK, EMPTY, GRAY
+        WHITE, BLACK, EMPTY, GRAY, BLUE
     }
 
     private class CellState {
@@ -200,6 +201,9 @@ public class BoardView extends JPanel implements MouseListener {
                     g.setColor(game.getP1().getPieceColor());
                 else if(cellColor == CellColor.GRAY) {
                     g.setColor(Color.lightGray);
+                }
+                else if (cellColor == CellColor.BLUE){
+                    g.setColor(Color.BLUE);
                 }
                 else
                     g.setColor(game.getP2().getPieceColor());
@@ -322,6 +326,7 @@ public class BoardView extends JPanel implements MouseListener {
                     animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, WHITE, 150);
                 }
                 displayAvailableMoves(activateMovesAvailable);
+                displayBestMove(activateBestAvailable);
                 panel.setActivePlayer(1); //Set the active player back to 1 (black)
 
             } else {
@@ -333,6 +338,7 @@ public class BoardView extends JPanel implements MouseListener {
                     animateFlipSequence(cellRow, cellCol, c.getRowLocation(), c.getColLocation(), EMPTY, BLACK, 150);
                 }
                 displayAvailableMoves(activateMovesAvailable);
+                displayBestMove(activateBestAvailable);
                 panel.setActivePlayer(2); //Set the active player back to 2 (white)
             }
             System.out.println("\n" + game.toString());
@@ -357,6 +363,7 @@ public class BoardView extends JPanel implements MouseListener {
         if (game.getCurrentPlayer() instanceof CPU) {
 
             displayAvailableMoves(false);
+            displayBestMove(false);
 
             int cellRow, cellCol, row, col;
             Coordinate c;
@@ -377,6 +384,7 @@ public class BoardView extends JPanel implements MouseListener {
             panel.setScore(1, game.getP1().getScore());
             panel.setScore(2, game.getP2().getScore());
             displayAvailableMoves(activateMovesAvailable);
+            displayBestMove(activateBestAvailable);
             panel.setActivePlayer(1); //Set the active player back to 1 (black)
 
             game.isEndGame(gui);
@@ -448,5 +456,23 @@ public class BoardView extends JPanel implements MouseListener {
             }
         }
         repaint();
+    }
+
+    public void setBestDisplay(boolean activateState) {
+        activateBestAvailable = activateState;
+    }
+
+    public void displayBestMove(boolean activateDisplay) {
+
+        int color = game.getCurrentPlayerColor();
+        ArrayList<Coordinate> playersMoves = game.getBoard().getLegalMoves(color);
+        BestMove best = new BestMove(game, playersMoves);
+        if(activateDisplay) {
+
+          boardState[best.getBest().getRowLocation()][best.getBest().getColLocation()].setColor(BLUE);
+        }
+        else
+            boardState[best.getBest().getRowLocation()][best.getBest().getColLocation()].setColor(EMPTY);
+         repaint();
     }
 }

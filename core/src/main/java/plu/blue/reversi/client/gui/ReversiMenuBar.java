@@ -28,9 +28,11 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
     private JMenuItem loadOnlineGameItem;
     private JMenuItem BoardColorSettingsItem;
     private JMenuItem displayMovesItem;
+    private JMenuItem displayBestMove;
 
 
     private boolean activateDisplay = false;
+    private boolean activateBest = false;
 
     /**
      * Constructs the menu bar
@@ -73,6 +75,11 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         displayMovesItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
         displayMovesItem.addActionListener(this);
         menu.add(displayMovesItem);
+
+        displayBestMove = new JMenuItem("Display Best Move");
+        displayBestMove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK));
+        displayBestMove.addActionListener(this);
+        menu.add(displayBestMove);
 
         JMenuItem menuItem = new JMenuItem("New Online Game");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
@@ -161,7 +168,17 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
             gui.BoardColorSettings();
         } else if( e.getSource() == displayMovesItem) {
             setMovesDisplay();
+        } else if (e.getSource() == displayBestMove){
+            setBestMoveDisplay();
         }
+    }
+
+    private void setBestMoveDisplay() {
+        activateBest = !activateBest;
+        System.out.println("Activate Display: " + activateBest);
+        gui.getBoardView().setBestDisplay(activateBest);
+        gui.getBoardView().displayBestMove(activateBest);
+
     }
 
     private void setMovesDisplay() {
