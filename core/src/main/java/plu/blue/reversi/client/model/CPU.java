@@ -87,7 +87,7 @@ public class CPU extends Player {
                 beta = min(beta, best);
                 if(beta <= alpha){
                     System.out.println(beta + " < " + alpha);
-                    System.out.println("PRUNE");
+                    //System.out.println("PRUNE");
                     break;
                 }
             }
