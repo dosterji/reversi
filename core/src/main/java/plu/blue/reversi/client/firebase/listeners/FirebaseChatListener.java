@@ -8,9 +8,10 @@ public interface FirebaseChatListener {
 
     /**
      * Called every time a chat message is added to an online game
-     * @param playerName the name of the player who added the message
+     * @param player player who added the message
+     *               ("one" is player one, "two" if player two)
      * @param message the chat message sent by the player
      */
-    void onMessageAdded(String playerName, String message);
+    void onMessageAdded(String player, String message);
 
 }
