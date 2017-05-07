@@ -9,6 +9,6 @@ public interface FirebaseCurrentPlayerListener {
     /**
      * Called every time the current player switches for an online game
      */
-    void onCurrentPlayerToggled();
+    void onCurrentPlayerChanged();
 
 }
