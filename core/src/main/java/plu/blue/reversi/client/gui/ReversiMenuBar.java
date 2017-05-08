@@ -22,6 +22,9 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
     /** New Computer item */
     private JMenuItem newCPUItem;
 
+    // New Online Game item
+    private JMenuItem newOnlineGameItem;
+
     // Menu items for saving and loading games
     private JMenuItem saveLocalGameItem;
     private JMenuItem loadLocalGameItem;
@@ -81,19 +84,11 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         displayBestMove.addActionListener(this);
         menu.add(displayBestMove);
 
-        JMenuItem menuItem = new JMenuItem("New Online Game");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_O, ActionEvent.META_MASK));
-        menuItem.getAccessibleContext().setAccessibleDescription(
-                "Start a new online game and invite someone to play.");
-        menu.add(menuItem);
-
-        menuItem = new JMenuItem("Join Online Game");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_J, ActionEvent.META_MASK));
-        menuItem.getAccessibleContext().setAccessibleDescription(
-                "Join an existing online game.");
-        menu.add(menuItem);
+        newOnlineGameItem = new JMenuItem("New Online Game");
+        newOnlineGameItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.META_MASK));
+        newOnlineGameItem.getAccessibleContext().setAccessibleDescription("Start a new online game");
+        newOnlineGameItem.addActionListener(this);
+        menu.add(newOnlineGameItem);
 
         menu.addSeparator();
 
@@ -158,11 +153,17 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
             gui.newCPUGame(diff);
             gui.getBoardView().displayAvailableMoves(activateDisplay);
         }
+        if (e.getSource() == newOnlineGameItem) {
+            gui.newOnlineGame();
+        }
         if (e.getSource() == saveLocalGameItem) {
             gui.saveLocalGame();
         }
         if (e.getSource() == loadLocalGameItem) {
             gui.loadLocalGame();
+        }
+        if (e.getSource() == loadOnlineGameItem) {
+            gui.loadOnlineGame();
         }
         if (e.getSource() == BoardColorSettingsItem) {
             gui.BoardColorSettings();

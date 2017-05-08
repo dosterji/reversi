@@ -1,5 +1,8 @@
 package plu.blue.reversi.client.gui;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import plu.blue.reversi.client.model.CPU;
 import plu.blue.reversi.client.model.LocalStorage;
 import plu.blue.reversi.client.model.Player;
@@ -8,6 +11,7 @@ import plu.blue.reversi.client.firebase.FirebaseConnection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * The main game window, contains all of the UI.
@@ -60,7 +64,7 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //<--Is this what we want?
 
         storage = new LocalStorage();
-        firebase = new FirebaseConnection("serviceAccountCredentials.json");
+        firebase = FirebaseConnection.getInstance();
 
         // Add the menu bar
         this.setJMenuBar(new ReversiMenuBar(this));
@@ -132,6 +136,20 @@ public class GameWindow extends JFrame {
         playerInfoPanel.setPlayerName(2, game.getP2().getName());
     }
 
+    public void newOnlineGame() {
+        JTextField onlineGameName = new JTextField();
+        JTextField onlineGamePassword = new JPasswordField();
+        Object[] message = {
+                "Game Name:", onlineGameName,
+                "Game Password:", onlineGamePassword
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "New Online Game", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            firebase.createGame(onlineGameName.getText(), onlineGamePassword.getText());
+        }
+    }
+
     /**
      * Saves a ReversiGame to local storage
      */
@@ -149,10 +167,32 @@ public class GameWindow extends JFrame {
         Object[] saveGameNames = storage.getSavedGameNames();
         String saveName = (String) JOptionPane.showInputDialog(
                 this, "Select a save game:", "Load Local Game", JOptionPane.PLAIN_MESSAGE,
-                null, saveGameNames, saveGameNames[0]
+                null, saveGameNames, null
         );
         ReversiGame savedGame = storage.getSavedGame(saveName);
         new GameWindow(savedGame, saveName);
+    }
+
+    public void loadOnlineGame() {
+        Component frame = this;
+        firebase.getDatabase().getReference("games").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> gameNames = new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    gameNames.add(ds.getKey());
+                }
+                String gameName = (String) JOptionPane.showInputDialog(
+                        frame, "Select an online game:", "Load Online Game", JOptionPane.PLAIN_MESSAGE,
+                        null, gameNames.toArray(), null
+                );
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println(databaseError.getMessage());
+            }
+        });
     }
 
     public void BoardColorSettings() {
