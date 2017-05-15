@@ -36,10 +36,9 @@ public class FirebaseMoveHistoryHandler {
      */
     private class FirebaseMove {
 
-        public int row, col;
-        public String player;
+        public int row, col, player;
 
-        public FirebaseMove(int row, int col, String player) {
+        public FirebaseMove(int row, int col, int player) {
             this.row = row;
             this.col = col;
             this.player = player;
@@ -88,7 +87,7 @@ public class FirebaseMoveHistoryHandler {
      * @param col the column index of the move
      * @param player the player who made the move
      */
-    public void addMove(String gameName, int row, int col, String player) {
+    public void addMove(String gameName, int row, int col, int player) {
         FirebaseConnection conn = FirebaseConnection.getInstance();
         DatabaseReference ref = conn.getDatabase().getReference("games/" + gameName + "/moveHistory");
         FirebaseMove move = new FirebaseMove(row, col, player);

@@ -11,8 +11,8 @@ public interface FirebaseMoveHistoryListener {
      * @param row the row index of the move
      * @param col the column index of the move
      * @param player the player who made the move
-     *               ("one" if player one, "two" if player two)
+     *               (1 if player one, 2 if player two)
      */
-    void onMoveAdded(int row, int col, String player);
+    void onMoveAdded(int row, int col, int player);
 
 }

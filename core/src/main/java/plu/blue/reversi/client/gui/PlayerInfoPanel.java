@@ -1,10 +1,13 @@
 package plu.blue.reversi.client.gui;
 
+import plu.blue.reversi.client.firebase.listeners.FirebaseCurrentPlayerListener;
+import plu.blue.reversi.client.firebase.listeners.FirebasePlayersListener;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class PlayerInfoPanel extends JPanel {
+public class PlayerInfoPanel extends JPanel implements FirebaseCurrentPlayerListener, FirebasePlayersListener {
 
     private Border activeBorder;
     private Border inactiveBorder;
@@ -90,4 +93,30 @@ public class PlayerInfoPanel extends JPanel {
             throw new IllegalArgumentException("Invalid player: " + player);
         }
     }
+
+    @Override
+    public void onCurrentPlayerChanged(int currentPlayer) {
+        setActivePlayer(currentPlayer);
+    }
+
+    @Override
+    public void onPlayerOneNameChanged(String playerOneName) {
+        setPlayerName(1, playerOneName);
+    }
+
+    @Override
+    public void onPlayerTwoNameChanged(String playerTwoName) {
+        setPlayerName(2, playerTwoName);
+    }
+
+    @Override
+    public void onPlayerOneScoreChanged(int playerOneScore) {
+        setScore(1, playerOneScore);
+    }
+
+    @Override
+    public void onPlayerTwoScoreChanged(int playerTwoScore) {
+        setScore(2, playerTwoScore);
+    }
+
 }

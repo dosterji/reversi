@@ -49,6 +49,10 @@ public class FirebaseConnection {
         database.getReference("games").child(gameName).setValue(new Game(password));
     }
 
+    public void addMove(String gameName, int row, int col, int player) {
+        moveHistoryHandler.addMove(gameName, row, col, player);
+    }
+
     public void addChatMessage(String gameName, String playerName, String message) {
         chatHandler.addMessage(gameName, playerName, message);
     }
@@ -60,14 +64,14 @@ public class FirebaseConnection {
     private class Game {
 
         public ArrayList<Move> moveHistory;
-        public String currentPlayer;
+        public long currentPlayer;
         public String password;
         public Player playerOne;
         public Player playerTwo;
 
         public Game(String password) {
             moveHistory = new ArrayList<>();
-            currentPlayer = "playerOne";
+            currentPlayer = 1;
             this.password = password;
             playerOne = new Player("Player 1", 2);
             playerTwo = new Player("Player 2", 2);

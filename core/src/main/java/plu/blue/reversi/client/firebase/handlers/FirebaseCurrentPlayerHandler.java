@@ -72,8 +72,9 @@ public class FirebaseCurrentPlayerHandler {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                int currentPlayer = Math.toIntExact((long) dataSnapshot.getValue());
                 for (FirebaseCurrentPlayerListener lis : currentPlayerListeners.get(gameName)) {
-                    lis.onCurrentPlayerChanged();
+                    lis.onCurrentPlayerChanged(currentPlayer);
                 }
             }
 

@@ -27,6 +27,11 @@ public class ReversiGame implements Serializable {
     /* The game history */
     private GameHistory history;
 
+    // For online games
+    private String onlineGameName;
+    private boolean onlineGame = false;
+    private int selectedPlayer;
+
     /**
      * Reversi Constructors
      */
@@ -43,6 +48,14 @@ public class ReversiGame implements Serializable {
         newGame();
 
     }
+
+    public ReversiGame(String onlineGameName, int selectedPlayer) {
+        this();
+        this.onlineGameName = onlineGameName;
+        this.selectedPlayer = selectedPlayer;
+        this.onlineGame = true;
+    }
+
     public ReversiGame(ReversiGame other) {
         this.p1 = new Player(other.getP1());
         this.p2 = new Player(other.getP2());
@@ -209,6 +222,18 @@ public class ReversiGame implements Serializable {
                     end.showMessageDialog(gui, "Tie Game");
             }
         }
+    }
+
+    public int getSelectedPlayer() {
+        return selectedPlayer;
+    }
+
+    public String getOnlineGameName() {
+        return onlineGameName;
+    }
+
+    public boolean isOnlineGame() {
+        return onlineGame;
     }
 
     /**

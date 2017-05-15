@@ -171,8 +171,7 @@ public class FirebasePlayersHandler {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int playerOneScore = (int) dataSnapshot.getValue();
-
+                int playerOneScore = Math.toIntExact((long) dataSnapshot.getValue());
                 for (FirebasePlayersListener lis : playersListeners.get(gameName)) {
                     lis.onPlayerOneScoreChanged(playerOneScore);
                 }
@@ -202,12 +201,11 @@ public class FirebasePlayersHandler {
      */
     private void watchPlayerTwoScore(String gameName) {
         FirebaseConnection conn = FirebaseConnection.getInstance();
-        DatabaseReference ref = conn.getDatabase().getReference("games/" + gameName + "playerTwo/score");
+        DatabaseReference ref = conn.getDatabase().getReference("games/" + gameName + "/playerTwo/score");
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int playerTwoScore = (int) dataSnapshot.getValue();
-
+                int playerTwoScore = Math.toIntExact((long) dataSnapshot.getValue());
                 for (FirebasePlayersListener lis : playersListeners.get(gameName)) {
                     lis.onPlayerTwoScoreChanged(playerTwoScore);
                 }

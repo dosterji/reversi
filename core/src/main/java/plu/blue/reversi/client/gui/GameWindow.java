@@ -2,6 +2,7 @@ package plu.blue.reversi.client.gui;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import plu.blue.reversi.client.model.CPU;
 import plu.blue.reversi.client.model.LocalStorage;
@@ -54,6 +55,54 @@ public class GameWindow extends JFrame {
         game = rg;
         setTitle("Reversi - " + saveName);
         init();
+    }
+
+    /**
+     * Constructs a new main window for the game from an online game.
+     * Copied and pasted from other constructor for testing purposes.
+     * @param onlineGameName the name of the online game to load
+     * @param player which player the game instance controls
+     *               (1 if player one, 2 if player two)
+     */
+    public GameWindow(String onlineGameName, int player) {
+        game = new ReversiGame();
+        setTitle("Reversi - " + onlineGameName);
+
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        firebase = FirebaseConnection.getInstance();
+
+        this.setJMenuBar(new ReversiMenuBar(this));
+
+        JPanel boardPanel = new JPanel(new BorderLayout(0, 0));
+
+        playerInfoPanel = new PlayerInfoPanel();
+        firebase.addCurrentPlayerListener(onlineGameName, playerInfoPanel);
+        firebase.addPlayersListener(onlineGameName, playerInfoPanel);
+        boardView = new BoardView(8, game, playerInfoPanel, this);
+
+        JPanel preserveAspectPanel = new JPanel(new PreserveAspectRatioLayout());
+
+        JPanel boardAndEdges = new JPanel(new BorderLayout());
+        boardAndEdges.add(BoardEdges.createTopPanel(8), BorderLayout.NORTH);
+        boardAndEdges.add(BoardEdges.createLeftPanel(8), BorderLayout.WEST);
+        boardAndEdges.add(boardView, BorderLayout.CENTER);
+        boardAndEdges.setBorder(BorderFactory.createMatteBorder(
+                0, 0, BoardEdges.EDGE_HEIGHT, BoardEdges.EDGE_WIDTH, BoardEdges.BACKGROUND_COLOR
+        ));
+
+        preserveAspectPanel.add(boardAndEdges);
+
+        boardPanel.add(preserveAspectPanel, BorderLayout.CENTER);
+        boardPanel.add(playerInfoPanel, BorderLayout.NORTH);
+
+        historyPanel = new GameHistoryPanel(game.getGameHistory());
+
+        this.add(historyPanel, BorderLayout.EAST);
+
+        this.add(boardPanel, BorderLayout.CENTER);
+        this.pack();
+        this.setVisible(true);
     }
 
     /**
@@ -174,18 +223,50 @@ public class GameWindow extends JFrame {
     }
 
     public void loadOnlineGame() {
-        Component frame = this;
-        firebase.getDatabase().getReference("games").addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference ref = firebase.getDatabase().getReference("games");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> gameNames = new ArrayList<>();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     gameNames.add(ds.getKey());
                 }
-                String gameName = (String) JOptionPane.showInputDialog(
-                        frame, "Select an online game:", "Load Online Game", JOptionPane.PLAIN_MESSAGE,
-                        null, gameNames.toArray(), null
-                );
+                JComboBox onlineGameNames = new JComboBox<>(gameNames.toArray());
+                JTextField onlineGamePassword = new JPasswordField();
+                JRadioButton playerOneButton = new JRadioButton("Player One");
+                playerOneButton.setActionCommand("Player One");
+                JRadioButton playerTwoButton = new JRadioButton("Player Two");
+                playerTwoButton.setActionCommand("Player Two");
+                ButtonGroup group = new ButtonGroup();
+                group.add(playerOneButton);
+                group.add(playerTwoButton);
+                Object[] message = {
+                        "Game Name:", onlineGameNames,
+                        "Game Password:", onlineGamePassword,
+                        playerOneButton, playerTwoButton
+                };
+                int option = JOptionPane.showConfirmDialog(null, message, "Join Online Game", JOptionPane.OK_CANCEL_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    String gameName = onlineGameNames.getSelectedItem().toString();
+                    String password = onlineGamePassword.getText();
+                    int player = group.getSelection().getActionCommand().equals("Player One") ? 1 : 2;
+                    DatabaseReference gameRef = firebase.getDatabase().getReference("games/" + gameName + "/password");
+                    gameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue(String.class).equals(password)) {
+                                new GameWindow(gameName, player);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "The password you entered is incorrect.");
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            System.out.println(databaseError.getMessage());
+                        }
+                    });
+                }
             }
 
             @Override
