@@ -139,6 +139,7 @@ public class FirebaseConnection {
 
     public FirebaseDatabase getDatabase() {
         return database;
-    }
+    };
+
 
 }

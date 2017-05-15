@@ -34,6 +34,9 @@ public class GameWindow extends JFrame {
     // Local storage for the GameWindow instance
     private LocalStorage storage;
 
+    //Player Chat area
+    private ChatPanel chat;
+
     // Connection for accessing Firebase
     private FirebaseConnection firebase;
     /**
@@ -85,6 +88,7 @@ public class GameWindow extends JFrame {
         playerInfoPanel = new PlayerInfoPanel();
         firebase.addCurrentPlayerListener(onlineGameName, playerInfoPanel);
         firebase.addPlayersListener(onlineGameName, playerInfoPanel);
+        firebase.addChatListener(onlineGameName, chat);
         boardView = new BoardView(8, game, playerInfoPanel, this);
 
         JPanel preserveAspectPanel = new JPanel(new PreserveAspectRatioLayout());
@@ -101,6 +105,12 @@ public class GameWindow extends JFrame {
 
         boardPanel.add(preserveAspectPanel, BorderLayout.CENTER);
         boardPanel.add(playerInfoPanel, BorderLayout.NORTH);
+
+        //Chat panel goes into the SOUTH
+        chat = new ChatPanel();
+        chat.setGameName(onlineGameName);
+        chat.setPlayerName(playerInfoPanel.getPlayerName(0));
+        this.add(chat, BorderLayout.SOUTH);
 
         historyPanel = new GameHistoryPanel(game.getGameHistory());
 
@@ -149,6 +159,10 @@ public class GameWindow extends JFrame {
         boardPanel.add(playerInfoPanel, BorderLayout.NORTH);
 
         historyPanel = new GameHistoryPanel(game.getGameHistory());
+
+        //Chat panel goes into the SOUTH
+        chat = new ChatPanel();
+        this.add(chat, BorderLayout.SOUTH);
 
         // History panel goes in the EAST
         this.add(historyPanel, BorderLayout.EAST);
