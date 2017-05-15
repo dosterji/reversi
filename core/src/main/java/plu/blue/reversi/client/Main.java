@@ -3,7 +3,7 @@ package plu.blue.reversi.client;
 import org.jdesktop.core.animation.timing.Animator;
 import org.jdesktop.core.animation.timing.TimingSource;
 import org.jdesktop.swing.animation.timing.sources.SwingTimerTimingSource;
-import plu.blue.reversi.client.gui.GameWindow;
+import plu.blue.reversi.client.gui.startMenu;
 
 public class Main {
 
@@ -15,6 +15,6 @@ public class Main {
         ts.init();
 
         // Create the GameWindow
-        new GameWindow();
+        new startMenu();
     }
 }

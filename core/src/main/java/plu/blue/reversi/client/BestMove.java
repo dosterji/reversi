@@ -1,6 +1,5 @@
 package plu.blue.reversi.client;
 
-import plu.blue.reversi.client.Coordinate;
 import plu.blue.reversi.client.model.ReversiGame;
 
 import java.util.ArrayList;
@@ -67,19 +66,20 @@ public class BestMove {
         Node n, target;
         target = new Node(possibleMoves.get(0), new ReversiGame(g));
 
-        for(int i = 1; i < possibleMoves.size(); i ++) {
-           n = new Node(possibleMoves.get(i), new ReversiGame(g));
-           if(playerColor == beta) {
-                if( n.getValue() < target.getValue())
+        for (int i = 1; i < possibleMoves.size(); i++) {
+            n = new Node(possibleMoves.get(i), new ReversiGame(g));
+            if (playerColor == beta) {
+                if (n.getValue() < target.getValue())
                     target = n;
-           }
-           if(playerColor == alpha) {
-               if( n.getValue() > target.getValue() )
-                   target = n;
-           }
+            }
+            if (playerColor == alpha) {
+                if (n.getValue() > target.getValue())
+                    target = n;
+            }
         }
         best = target.getCoord();
         val = target.getValue();
+
     }
 
     /**

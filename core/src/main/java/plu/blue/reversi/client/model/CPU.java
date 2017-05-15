@@ -27,6 +27,7 @@ public class CPU extends Player {
     public Coordinate move(ReversiGame other) {
         game = new ReversiGame(other);
         ArrayList<Coordinate> a = game.getCurrentPlayerMoves();
+
         ArrayList<Double> values = new ArrayList<Double>();
 
 
