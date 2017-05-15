@@ -97,8 +97,23 @@ public class DeveloperMenu extends JMenu implements ActionListener {
     }
 
     private void changePlayer1Name() {
-        String newName = JOptionPane.showInputDialog(gui, "New name");
-        gui.getPlayerInfoPanel().setPlayerName(1, newName);
+
+        Object[] possibleP = { "Player 1", "Player 2"};
+        Object selectedP = JOptionPane.showInputDialog(null,
+                "Select Player", "Input",
+                JOptionPane.QUESTION_MESSAGE, null,
+                possibleP, possibleP[0]);
+
+        if(selectedP.equals("Player 1")){
+            String newName = JOptionPane.showInputDialog(gui, "New name");
+            gui.getPlayerInfoPanel().setPlayerName(1, newName);
+        }
+        else if(selectedP.equals("Player 2")){
+            String newName = JOptionPane.showInputDialog(gui, "New name");
+            gui.getPlayerInfoPanel().setPlayerName(2, newName);
+        }
+
+
     }
 
     private void swapActivePlayer() {

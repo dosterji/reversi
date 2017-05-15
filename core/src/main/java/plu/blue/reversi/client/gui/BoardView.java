@@ -470,13 +470,13 @@ public class BoardView extends JPanel implements MouseListener {
 
         int color = game.getCurrentPlayerColor();
         ArrayList<Coordinate> playersMoves = game.getBoard().getLegalMoves(color);
-        BestMove best = new BestMove(game, playersMoves);
-        if(activateDisplay) {
-
-          boardState[best.getBest().getRowLocation()][best.getBest().getColLocation()].setColor(BLUE);
+        if (playersMoves.size() != 0) {
+            BestMove best = new BestMove(game, playersMoves);
+            if (activateDisplay) {
+                boardState[best.getBest().getRowLocation()][best.getBest().getColLocation()].setColor(BLUE);
+            } else
+                boardState[best.getBest().getRowLocation()][best.getBest().getColLocation()].setColor(EMPTY);
+            repaint();
         }
-        else
-            boardState[best.getBest().getRowLocation()][best.getBest().getColLocation()].setColor(EMPTY);
-         repaint();
     }
 }

@@ -32,6 +32,7 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
     private JMenuItem BoardColorSettingsItem;
     private JMenuItem displayMovesItem;
     private JMenuItem displayBestMove;
+    private JMenuItem changePlayerNameItem;
 
 
     private boolean activateDisplay = false;
@@ -122,6 +123,13 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         BoardColorSettingsItem.addActionListener(this);
         menu.add(BoardColorSettingsItem);
 
+        changePlayerNameItem = new JMenuItem("Change Player Name");
+        changePlayerNameItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.META_MASK));
+        changePlayerNameItem.addActionListener(this);
+        menu.add(changePlayerNameItem);
+
+
+
         return menu;
     }
 
@@ -134,22 +142,7 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
             gui.newGame();
         }
         if(e.getSource() == newCPUItem) {
-            int diff;
-            Object[] possibleDiffs = { "1", "2", "3", "4", "5"};
-            Object selectedDiff = JOptionPane.showInputDialog(null,
-                    "Select CPU Difficulty", "Input",
-                    JOptionPane.QUESTION_MESSAGE, null,
-                    possibleDiffs, possibleDiffs[0]);
-            if(selectedDiff.equals("5"))
-                diff = 0;
-            else if(selectedDiff.equals("4"))
-                diff = 2;
-            else if(selectedDiff.equals("3"))
-                diff = 4;
-            else if(selectedDiff.equals("2"))
-                diff = 6;
-            else
-                diff = 8;
+            int diff = gui.chooseDiff();
             gui.newCPUGame(diff);
             gui.getBoardView().displayAvailableMoves(activateDisplay);
         }
@@ -171,6 +164,8 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
             setMovesDisplay();
         } else if (e.getSource() == displayBestMove){
             setBestMoveDisplay();
+        } else if(e.getSource() == changePlayerNameItem){
+            changePlayerName();
         }
     }
 
@@ -188,6 +183,48 @@ public class ReversiMenuBar extends JMenuBar implements ActionListener {
         System.out.println("Activate Display: " + activateDisplay);
         gui.getBoardView().setMovesDisplay(activateDisplay);
         gui.getBoardView().displayAvailableMoves(activateDisplay);
+
+    }
+    /*
+    public int chooseDiff(){
+        int diff;
+        Object[] possibleDiffs = { "1", "2", "3", "4", "5"};
+        Object selectedDiff = JOptionPane.showInputDialog(null,
+                "Select CPU Difficulty", "Input",
+                JOptionPane.QUESTION_MESSAGE, null,
+                possibleDiffs, possibleDiffs[0]);
+        if(selectedDiff.equals("5"))
+            diff = 0;
+        else if(selectedDiff.equals("4"))
+            diff = 2;
+        else if(selectedDiff.equals("3"))
+            diff = 4;
+        else if(selectedDiff.equals("2"))
+            diff = 6;
+        else
+            diff = 8;
+
+        return diff;
+    }
+    */
+    private void changePlayerName() {
+
+        Object[] possibleP = { "Player 1", "Player 2"};
+
+        Object selectedP = JOptionPane.showInputDialog(null,
+                "Select Player", "Input",
+                JOptionPane.QUESTION_MESSAGE, null,
+                possibleP, possibleP[0]);
+
+        if(selectedP.equals("Player 1")){
+            String newName = JOptionPane.showInputDialog(gui, "New name");
+            gui.getPlayerInfoPanel().setPlayerName(1, newName);
+        }
+        else if(selectedP.equals("Player 2")){
+            String newName = JOptionPane.showInputDialog(gui, "New name");
+            gui.getPlayerInfoPanel().setPlayerName(2, newName);
+        }
+
 
     }
 }

@@ -90,4 +90,10 @@ public class PlayerInfoPanel extends JPanel {
             throw new IllegalArgumentException("Invalid player: " + player);
         }
     }
+    public String getPlayerName(int player){
+        if(player == 1)
+            return player1NameLabel.getText();
+        else
+            return player2NameLabel.getText();
+    }
 }

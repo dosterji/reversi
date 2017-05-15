@@ -35,16 +35,22 @@ public class GameWindow extends JFrame {
 
     // Connection for accessing Firebase
     private FirebaseConnection firebase;
-
     /**
      * Constructs a new main window for the game.
      */
-    public GameWindow() {
+    public GameWindow(boolean g) {
         game = new ReversiGame();
         setTitle("Reversi");
         init();
-        newGame();
+        if(g) {
+            int diff = chooseDiff();
+            newCPUGame(diff);
+        }
+        else
+            newGame();
+
     }
+
 
     /**
      * Constructs a new main window for this game from an existing game.
@@ -60,8 +66,9 @@ public class GameWindow extends JFrame {
      * GUI setup that is common for new games and loaded games
      */
     private void init() {
-        //setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //<--Is this what we want?
+
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //<--Is this what we want?
 
         storage = new LocalStorage();
         firebase = FirebaseConnection.getInstance();
@@ -118,12 +125,15 @@ public class GameWindow extends JFrame {
      * Starts a new Reversi game
      */
     public void newGame() {
+
         game.newGame();
         historyPanel.newGame();
         boardView.newGame();
         game.setP2(new Player("PLAYER 2", 1));
-        playerInfoPanel.setPlayerName(1, game.getP1().getName());
-        playerInfoPanel.setPlayerName(2, game.getP2().getName());
+        //playerInfoPanel.setPlayerName(1, game.getP1().getName());
+        //playerInfoPanel.setPlayerName(2, game.getP2().getName());
+        changePlayerName(1);
+        changePlayerName(2);
     }
     public void newCPUGame(int difficulty) {
         int depth = difficulty - 8;
@@ -132,8 +142,10 @@ public class GameWindow extends JFrame {
         historyPanel.newGame();
         boardView.newGame();
         game.setP2(new CPU(difficulty));
-        playerInfoPanel.setPlayerName(1, game.getP1().getName());
-        playerInfoPanel.setPlayerName(2, game.getP2().getName());
+        playerInfoPanel.setPlayerName(2, "CPU");
+        changePlayerName(1);
+        //playerInfoPanel.setPlayerName(1, game.getP1().getName());
+
     }
 
     public void newOnlineGame() {
@@ -198,4 +210,43 @@ public class GameWindow extends JFrame {
     public void BoardColorSettings() {
         new BoardColorGUI(game, boardView);
     }
+
+    /*
+     *Private helper method that changes the name of the player
+     * @param int for the player to change the name for
+     */
+    private void changePlayerName(int p) {
+        if(p == 1){
+            String newName = JOptionPane.showInputDialog(null, "Player 1 name:", "Name" ,JOptionPane.QUESTION_MESSAGE);
+            playerInfoPanel.setPlayerName(1, newName);
+        }
+        else{
+            String newName = JOptionPane.showInputDialog(null, "Player 2 name:", "Name" ,JOptionPane.QUESTION_MESSAGE);
+            playerInfoPanel.setPlayerName(2, newName);
+        }
+
+
+    }
+
+    public int chooseDiff(){
+        int diff;
+        Object[] possibleDiffs = { "1", "2", "3", "4", "5"};
+        Object selectedDiff = JOptionPane.showInputDialog(null,
+                "Select CPU Difficulty", "Input",
+                JOptionPane.QUESTION_MESSAGE, null,
+                possibleDiffs, possibleDiffs[0]);
+        if(selectedDiff.equals("5"))
+            diff = 0;
+        else if(selectedDiff.equals("4"))
+            diff = 2;
+        else if(selectedDiff.equals("3"))
+            diff = 4;
+        else if(selectedDiff.equals("2"))
+            diff = 6;
+        else
+            diff = 8;
+
+        return diff;
+    }
+
 }

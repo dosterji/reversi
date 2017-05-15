@@ -66,6 +66,7 @@ public class Player implements Serializable {
         return name;
     }
 
+
     /**
      * Get a String representation of the PLayer
      * @return the string

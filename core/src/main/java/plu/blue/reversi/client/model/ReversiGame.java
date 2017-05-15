@@ -30,7 +30,7 @@ public class ReversiGame implements Serializable {
     /**
      * Reversi Constructors
      */
-    public ReversiGame() {
+    public  ReversiGame() {
         this("PLAYER 1", "PLAYER 2");
     }
     public ReversiGame(String name1, String name2) {
@@ -192,6 +192,7 @@ public class ReversiGame implements Serializable {
     public void isEndGame(GameWindow gui) {
         //Determine if the new player has any moves
         ArrayList<Coordinate> moves = getCurrentPlayerMoves();
+        System.out.println("Size of moves " + moves.size());
         if(moves.isEmpty()) {
             int p = changeCurrentPlayer();
             gui.getPlayerInfoPanel().setActivePlayer(p);
@@ -201,10 +202,17 @@ public class ReversiGame implements Serializable {
                 JOptionPane end = new JOptionPane();
                 int p1s = getP1().getScore();
                 int p2s = getP2().getScore();
-                if (p1s > p2s)
-                    end.showMessageDialog(gui, "PLAYER 1 Wins");
-                else if (p1s < p2s)
-                    end.showMessageDialog(gui, "PLAYER 2 Wins");
+                String winner;
+                if (p1s > p2s){
+                    winner = gui.getPlayerInfoPanel().getPlayerName(1);
+                    end.showMessageDialog(gui, winner + " WINS!");
+                }
+
+                else if (p1s < p2s){
+                    winner = gui.getPlayerInfoPanel().getPlayerName(2);
+                    end.showMessageDialog(gui, winner + " WINS!");
+                }
+
                 else
                     end.showMessageDialog(gui, "Tie Game");
             }
