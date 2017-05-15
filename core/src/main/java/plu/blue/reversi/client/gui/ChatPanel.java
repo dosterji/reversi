@@ -18,7 +18,7 @@ public class ChatPanel extends JPanel implements FirebaseChatListener{
     private static JTextArea chatArea;
     private static JTextField text;
     private static JPanel panel;
-    private String gameName, playerName;
+    private String gameName, name;
 
     //Creates a chat area for users to read messages
     public ChatPanel(){
@@ -35,7 +35,7 @@ public class ChatPanel extends JPanel implements FirebaseChatListener{
         });
 
         //Chat Area
-        chatArea = new JTextArea(10,100);
+        chatArea = new JTextArea(10,73);
         chatArea.setBorder(new LineBorder(Color.BLACK));
 
         //Scroll
@@ -54,21 +54,22 @@ public class ChatPanel extends JPanel implements FirebaseChatListener{
 
     }
 
-    private void textActionPerformed(ActionEvent e){
-
-        String msg = text.getText();
-        chatArea.append(msg + "\n");
-        text.setText("");
-
-        onMessageAdded("player",msg);
-    }
 
     public void setGameName(String gName){
         gameName = gName;
     }
 
     public void setPlayerName(String pName){
-        playerName = pName;
+        name = pName;
+    }
+
+    private void textActionPerformed(ActionEvent e){
+
+        String msg = text.getText();
+        chatArea.append(msg + "\n");
+        text.setText("");
+
+        onMessageAdded(name,msg);
     }
 
 
